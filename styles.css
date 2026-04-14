@@ -5,8 +5,8 @@
    spacing, animations, hover effects — everything
    that makes the app LOOK the way it does.
    ============================================= */
- 
- 
+
+
 /* =============================================
    RESET & ROOT VARIABLES
    - We zero out default browser margins/padding
@@ -18,7 +18,7 @@
   margin: 0;
   padding: 0;
 }
- 
+
 :root {
   --bg: #0d0b1a;                    /* darkest background — almost black purple */
   --surface: #16132a;               /* card/nav backgrounds */
@@ -34,8 +34,8 @@
   --red: #f87171;                   /* error / pending color */
   --blue: #60a5fa;                  /* info color */
 }
- 
- 
+
+
 /* =============================================
    BASE BODY STYLES
    Centers the app on the page
@@ -50,8 +50,8 @@ body {
   justify-content: center;
   padding: 20px;
 }
- 
- 
+
+
 /* =============================================
    APP WRAPPER
    The main outer container — everything sits inside this
@@ -64,8 +64,8 @@ body {
   max-width: 780px;
   width: 100%;
 }
- 
- 
+
+
 /* =============================================
    NAVIGATION BAR
    The 5-button tab bar at the top
@@ -76,7 +76,7 @@ body {
   border-bottom: 1px solid var(--border);
   padding: 0 4px;
 }
- 
+
 .nav button {
   flex: 1;                  /* each button takes equal width */
   padding: 12px 4px;
@@ -91,17 +91,17 @@ body {
   align-items: center;
   gap: 3px;
 }
- 
+
 .nav button.active {
   color: var(--accent);     /* glows purple when selected */
 }
- 
+
 .nav button svg {
   width: 18px;
   height: 18px;
 }
- 
- 
+
+
 /* =============================================
    PAGE SYSTEM
    All pages exist in the HTML but only
@@ -111,12 +111,12 @@ body {
   display: none;
   padding: 20px;
 }
- 
+
 .page.active {
   display: block;
 }
- 
- 
+
+
 /* =============================================
    HOME PAGE — GREETING HERO
    The top section with photo, name, and hype pill
@@ -126,7 +126,7 @@ body {
   padding: 24px 16px 16px;
   position: relative;
 }
- 
+
 /* Circular photo frame */
 .avatar-ring {
   width: 88px;
@@ -142,14 +142,14 @@ body {
   cursor: pointer;
   position: relative;
 }
- 
+
 .avatar-ring img {
   width: 100%;
   height: 100%;
   object-fit: cover;        /* fills circle without stretching */
   border-radius: 50%;
 }
- 
+
 /* "add photo" label that fades in on hover */
 .avatar-ring .add-photo {
   position: absolute;
@@ -166,24 +166,24 @@ body {
   opacity: 0;               /* hidden by default */
   transition: opacity 0.2s;
 }
- 
+
 .avatar-ring:hover .add-photo {
   opacity: 1;               /* fades in when you hover */
 }
- 
+
 .greeting-name {
   font-size: 22px;
   font-weight: 500;
   color: var(--text);
   margin-bottom: 4px;
 }
- 
+
 .greeting-sub {
   font-size: 14px;
   color: var(--muted);
   margin-bottom: 14px;
 }
- 
+
 /* The tappable hype button — pill shape */
 .hype-pill {
   display: inline-block;
@@ -195,8 +195,8 @@ body {
   color: var(--accent);
   cursor: pointer;
 }
- 
- 
+
+
 /* =============================================
    STATS ROW — 3 number cards on home page
    Uses CSS Grid for equal columns
@@ -207,7 +207,7 @@ body {
   gap: 8px;
   margin-bottom: 16px;
 }
- 
+
 .stat-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -215,20 +215,20 @@ body {
   padding: 12px;
   text-align: center;
 }
- 
+
 .stat-num {
   font-size: 22px;
   font-weight: 500;
   color: var(--accent);
 }
- 
+
 .stat-label {
   font-size: 11px;
   color: var(--muted);
   margin-top: 2px;
 }
- 
- 
+
+
 /* =============================================
    SECTION TITLES
    Small uppercase labels before each section
@@ -241,8 +241,8 @@ body {
   letter-spacing: 0.08em;
   margin-bottom: 10px;
 }
- 
- 
+
+
 /* =============================================
    TASK CARDS
    Each individual task item
@@ -259,15 +259,15 @@ body {
   cursor: pointer;
   transition: border-color 0.2s;
 }
- 
+
 .task-card:hover {
   border-color: var(--accent);   /* border lights up purple on hover */
 }
- 
+
 .task-card.done {
   opacity: 0.6;                  /* fades out when completed */
 }
- 
+
 /* The circular checkbox on the left of each task */
 .task-check {
   width: 22px;
@@ -280,23 +280,23 @@ body {
   flex-shrink: 0;                /* doesn't shrink if text is long */
   transition: all 0.2s;
 }
- 
+
 .task-card.done .task-check {
   background: var(--green);      /* fills green when done */
   border-color: var(--green);
 }
- 
+
 .task-text {
   flex: 1;                       /* takes all remaining space */
   font-size: 14px;
   color: var(--text);
 }
- 
+
 .task-card.done .task-text {
   text-decoration: line-through; /* strikethrough on completion */
   color: var(--muted);
 }
- 
+
 /* Small category pill on the right of each task */
 .task-tag {
   font-size: 11px;
@@ -305,8 +305,8 @@ body {
   background: var(--surface2);
   color: var(--accent);
 }
- 
- 
+
+
 /* =============================================
    PROGRESS BAR
    Used in Today page and Goals page
@@ -318,15 +318,15 @@ body {
   margin: 6px 0 2px;
   overflow: hidden;
 }
- 
+
 .prog-bar {
   height: 100%;
   border-radius: 3px;
   background: var(--accent);
   transition: width 0.4s;        /* smooth animation when % changes */
 }
- 
- 
+
+
 /* =============================================
    GOAL CARDS
    Long-term goals with milestones
@@ -338,31 +338,31 @@ body {
   padding: 14px;
   margin-bottom: 10px;
 }
- 
+
 .goal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
 }
- 
+
 .goal-title {
   font-size: 15px;
   font-weight: 500;
   color: var(--text);
 }
- 
+
 .goal-pct {
   font-size: 13px;
   color: var(--accent);
 }
- 
+
 .goal-meta {
   font-size: 12px;
   color: var(--muted);
   margin-top: 6px;
 }
- 
+
 /* Row of milestone clickable pills */
 .milestone-row {
   display: flex;
@@ -370,7 +370,7 @@ body {
   margin-top: 10px;
   flex-wrap: wrap;               /* wraps to next line if too many */
 }
- 
+
 .milestone {
   font-size: 11px;
   padding: 3px 10px;
@@ -380,14 +380,14 @@ body {
   border: 1px solid var(--border);
   cursor: pointer;
 }
- 
+
 .milestone.done {
   background: rgba(192, 132, 252, 0.15);
   color: var(--accent);
   border-color: var(--accent);
 }
- 
- 
+
+
 /* =============================================
    QUIZ CARDS
    Used in Discover page for personality + skill
@@ -399,20 +399,20 @@ body {
   padding: 16px;
   margin-bottom: 10px;
 }
- 
+
 .quiz-q {
   font-size: 14px;
   color: var(--text);
   margin-bottom: 12px;
   line-height: 1.5;
 }
- 
+
 .quiz-opts {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
- 
+
 .quiz-opt {
   background: var(--surface2);
   border: 1px solid var(--border);
@@ -425,19 +425,19 @@ body {
   transition: all 0.2s;
   font-family: inherit;
 }
- 
+
 .quiz-opt:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
- 
+
 .quiz-opt.selected {
   background: rgba(192, 132, 252, 0.15);
   border-color: var(--accent);
   color: var(--accent);
 }
- 
- 
+
+
 /* =============================================
    REWARD CARD
    Special gold-bordered card on End of Day page
@@ -450,30 +450,30 @@ body {
   text-align: center;
   margin-bottom: 12px;
 }
- 
+
 .reward-icon {
   font-size: 32px;
   margin-bottom: 8px;
 }
- 
+
 .reward-title {
   font-size: 16px;
   font-weight: 500;
   color: var(--gold);
   margin-bottom: 4px;
 }
- 
+
 .reward-sub {
   font-size: 13px;
   color: var(--muted);
 }
- 
- 
+
+
 /* =============================================
    REUSABLE UTILITY COMPONENTS
    Shared across multiple pages
    ============================================= */
- 
+
 /* Dashed "add" button — used below task/goal lists */
 .add-btn {
   width: 100%;
@@ -492,19 +492,19 @@ body {
   margin-top: 4px;
   font-family: inherit;
 }
- 
+
 .add-btn:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
- 
+
 /* Row with text input + button side by side */
 .input-row {
   display: flex;
   gap: 8px;
   margin-top: 12px;
 }
- 
+
 /* Styled text input field */
 .styled-input {
   flex: 1;
@@ -517,15 +517,15 @@ body {
   outline: none;
   font-family: inherit;
 }
- 
+
 .styled-input:focus {
   border-color: var(--accent);   /* border lights up on focus */
 }
- 
+
 .styled-input::placeholder {
   color: var(--muted);
 }
- 
+
 /* Purple accent button */
 .accent-btn {
   background: rgba(192, 132, 252, 0.2);
@@ -539,25 +539,25 @@ body {
   white-space: nowrap;
   font-family: inherit;
 }
- 
+
 .accent-btn:hover {
   background: rgba(192, 132, 252, 0.35);
 }
- 
- 
+
+
 /* =============================================
    END OF DAY PAGE
    ============================================= */
 .eod-section {
   margin-bottom: 20px;
 }
- 
+
 .eod-q {
   font-size: 14px;
   color: var(--text);
   margin-bottom: 10px;
 }
- 
+
 /* Row of 5 mood emoji buttons */
 .mood-row {
   display: flex;
@@ -565,7 +565,7 @@ body {
   justify-content: center;
   margin-bottom: 16px;
 }
- 
+
 .mood-btn {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -575,12 +575,12 @@ body {
   cursor: pointer;
   transition: all 0.2s;
 }
- 
+
 .mood-btn.selected {
   border-color: var(--accent);
   background: rgba(192, 132, 252, 0.15);
 }
- 
+
 /* The big "claim your reward" button */
 .big-accent-btn {
   width: 100%;
@@ -595,27 +595,318 @@ body {
   margin-top: 8px;
   font-family: inherit;
 }
- 
+
 .big-accent-btn:hover {
   background: rgba(192, 132, 252, 0.35);
 }
- 
- 
+
+
+/* =============================================
+   HOME PAGE — SECTION CARDS
+   The two main blocks: "what's on your mind"
+   and "long-term goals"
+   ============================================= */
+
+/* Outer card wrapping each home section */
+.home-section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+/* Icon + title row at the top of each card */
+.home-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.home-section-header svg {
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+/* Small purple badge showing goal count */
+.goal-count-badge {
+  margin-left: auto;
+  background: rgba(192, 132, 252, 0.15);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  padding: 1px 8px;
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* ── TASK INPUT GROUP ──
+   The text input + deadline row + add button
+   stacked vertically inside the mind card */
+.task-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Full-width add button below the inputs */
+.home-add-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* ── DEADLINE ROW ──
+   The "complete by" label + pill buttons + custom picker */
+.deadline-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.deadline-label {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+/* Container for the quick-pick deadline pills */
+.deadline-pills {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+/* Individual quick-pick deadline pill */
+.dl-pill {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.dl-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Selected state — lights up purple */
+.dl-pill.selected {
+  background: rgba(192, 132, 252, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* The datetime-local custom input */
+.deadline-custom {
+  color-scheme: dark;        /* makes the native date picker dark */
+}
+
+/* ── HOME TASK ITEMS ──
+   Slightly more compact than the Today page tasks
+   Includes a deadline badge on the right */
+.home-task-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.home-task-item:hover {
+  border-color: var(--accent);
+}
+
+.home-task-item.done {
+  opacity: 0.5;
+}
+
+.home-task-item.done .home-task-text {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+/* The circular checkbox */
+.home-task-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.home-task-item.done .home-task-check {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.home-task-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* Deadline badge shown on the right of each task */
+.home-task-deadline {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Color states for the deadline badge */
+.home-task-deadline.urgent  { background: rgba(248,113,113,0.15); color: var(--red);   border: 1px solid rgba(248,113,113,0.3); }
+.home-task-deadline.soon    { background: rgba(251,191,36,0.15);  color: var(--gold);  border: 1px solid rgba(251,191,36,0.3); }
+.home-task-deadline.ok      { background: rgba(192,132,252,0.12); color: var(--accent);border: 1px solid var(--border); }
+.home-task-deadline.nodate  { background: var(--surface);         color: var(--muted); border: 1px solid var(--border); }
+
+/* Delete button on each task — shown on hover */
+.home-task-delete {
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+
+.home-task-item:hover .home-task-delete {
+  opacity: 1;
+}
+
+/* ── HOME GOAL ITEMS ──
+   Each long-term goal rendered as a mini card
+   with category tag, progress bar, target date,
+   and clickable milestone pills */
+.home-goal-item {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  transition: border-color 0.2s;
+}
+
+.home-goal-item:hover {
+  border-color: rgba(192, 132, 252, 0.4);
+}
+
+/* Top row: title + category tag + percentage */
+.home-goal-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.home-goal-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+/* Category tag — different color per category */
+.home-goal-cat {
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.home-goal-cat.skill    { background: rgba(96,165,250,0.15);  color: var(--blue);   border:1px solid rgba(96,165,250,0.3);  }
+.home-goal-cat.fitness  { background: rgba(74,222,128,0.15);  color: var(--green);  border:1px solid rgba(74,222,128,0.3);  }
+.home-goal-cat.creative { background: rgba(232,121,249,0.15); color: var(--accent2);border:1px solid rgba(232,121,249,0.3); }
+.home-goal-cat.career   { background: rgba(251,191,36,0.15);  color: var(--gold);   border:1px solid rgba(251,191,36,0.3);  }
+.home-goal-cat.personal { background: rgba(192,132,252,0.15); color: var(--accent); border:1px solid var(--border);         }
+
+.home-goal-pct {
+  font-size: 13px;
+  color: var(--accent);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* Row below the bar: target date + delete button */
+.home-goal-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+.home-goal-date {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Milestone pills row — same style as goals page */
+.home-goal-milestones {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* Hype message shown when a goal hits 100% */
+.goal-complete-msg {
+  font-size: 12px;
+  color: var(--gold);
+  text-align: center;
+  padding: 6px;
+  margin-top: 6px;
+  display: none;
+}
+
+.goal-complete-msg.show {
+  display: block;
+}
+
+
 /* =============================================
    UTILITY CLASSES
    ============================================= */
- 
+
 /* Completely hide an element (toggled by JS) */
 .hidden {
   display: none;
 }
- 
+
 /* The actual file picker input — hidden visually,
    triggered by clicking the avatar circle */
 input[type="file"] {
   display: none;
 }
- 
+
 /* Feedback/praise message after answering a quiz */
 .confetti-msg {
   font-size: 13px;
@@ -624,15 +915,7 @@ input[type="file"] {
   padding: 8px;
   display: none;
 }
-/* Floating hearts */
-.heart {
-  position: fixed;
-  bottom: 0;
-  font-size: 20px;
-  animation: floatUp 5s linear infinite;
-}
- 
+
 .confetti-msg.show {
   display: block;
 }
- 
