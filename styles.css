@@ -1,0 +1,638 @@
+/* =============================================
+   styles.css
+   All the visual styling for Tapti's Hype Tracker
+   This file controls: colors, layouts, sizes,
+   spacing, animations, hover effects — everything
+   that makes the app LOOK the way it does.
+   ============================================= */
+ 
+ 
+/* =============================================
+   RESET & ROOT VARIABLES
+   - We zero out default browser margins/padding
+   - We define all colors as reusable variables
+   - Change a color here = changes everywhere
+   ============================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+ 
+:root {
+  --bg: #0d0b1a;                    /* darkest background — almost black purple */
+  --surface: #16132a;               /* card/nav backgrounds */
+  --surface2: #1e1a33;              /* input field backgrounds */
+  --surface3: #252040;              /* hover state backgrounds */
+  --accent: #c084fc;                /* main purple accent — used everywhere */
+  --accent2: #e879f9;               /* bright pink — used for hype moments */
+  --gold: #fbbf24;                  /* gold — used for rewards */
+  --text: #f3f0ff;                  /* primary text — soft white */
+  --muted: #8b7fa8;                 /* secondary/muted text — dim purple-grey */
+  --border: rgba(192, 132, 252, 0.2); /* subtle purple borders */
+  --green: #4ade80;                 /* success / completed color */
+  --red: #f87171;                   /* error / pending color */
+  --blue: #60a5fa;                  /* info color */
+}
+ 
+ 
+/* =============================================
+   BASE BODY STYLES
+   Centers the app on the page
+   ============================================= */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+}
+ 
+ 
+/* =============================================
+   APP WRAPPER
+   The main outer container — everything sits inside this
+   ============================================= */
+.app {
+  background: var(--bg);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  max-width: 780px;
+  width: 100%;
+}
+ 
+ 
+/* =============================================
+   NAVIGATION BAR
+   The 5-button tab bar at the top
+   ============================================= */
+.nav {
+  display: flex;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 4px;
+}
+ 
+.nav button {
+  flex: 1;                  /* each button takes equal width */
+  padding: 12px 4px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 12px;
+  cursor: pointer;
+  transition: color 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+ 
+.nav button.active {
+  color: var(--accent);     /* glows purple when selected */
+}
+ 
+.nav button svg {
+  width: 18px;
+  height: 18px;
+}
+ 
+ 
+/* =============================================
+   PAGE SYSTEM
+   All pages exist in the HTML but only
+   the one with class "active" is visible
+   ============================================= */
+.page {
+  display: none;
+  padding: 20px;
+}
+ 
+.page.active {
+  display: block;
+}
+ 
+ 
+/* =============================================
+   HOME PAGE — GREETING HERO
+   The top section with photo, name, and hype pill
+   ============================================= */
+.greeting-hero {
+  text-align: center;
+  padding: 24px 16px 16px;
+  position: relative;
+}
+ 
+/* Circular photo frame */
+.avatar-ring {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  margin: 0 auto 12px;
+  border: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface2);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+ 
+.avatar-ring img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;        /* fills circle without stretching */
+  border-radius: 50%;
+}
+ 
+/* "add photo" label that fades in on hover */
+.avatar-ring .add-photo {
+  position: absolute;
+  inset: 0;                 /* covers the entire ring */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(13, 11, 26, 0.7);
+  border-radius: 50%;
+  font-size: 11px;
+  color: var(--accent);
+  gap: 2px;
+  opacity: 0;               /* hidden by default */
+  transition: opacity 0.2s;
+}
+ 
+.avatar-ring:hover .add-photo {
+  opacity: 1;               /* fades in when you hover */
+}
+ 
+.greeting-name {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+ 
+.greeting-sub {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 14px;
+}
+ 
+/* The tappable hype button — pill shape */
+.hype-pill {
+  display: inline-block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--accent);
+  cursor: pointer;
+}
+ 
+ 
+/* =============================================
+   STATS ROW — 3 number cards on home page
+   Uses CSS Grid for equal columns
+   ============================================= */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 8px;
+  margin-bottom: 16px;
+}
+ 
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+}
+ 
+.stat-num {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--accent);
+}
+ 
+.stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+ 
+ 
+/* =============================================
+   SECTION TITLES
+   Small uppercase labels before each section
+   ============================================= */
+.section-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+ 
+ 
+/* =============================================
+   TASK CARDS
+   Each individual task item
+   ============================================= */
+.task-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+ 
+.task-card:hover {
+  border-color: var(--accent);   /* border lights up purple on hover */
+}
+ 
+.task-card.done {
+  opacity: 0.6;                  /* fades out when completed */
+}
+ 
+/* The circular checkbox on the left of each task */
+.task-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;                /* doesn't shrink if text is long */
+  transition: all 0.2s;
+}
+ 
+.task-card.done .task-check {
+  background: var(--green);      /* fills green when done */
+  border-color: var(--green);
+}
+ 
+.task-text {
+  flex: 1;                       /* takes all remaining space */
+  font-size: 14px;
+  color: var(--text);
+}
+ 
+.task-card.done .task-text {
+  text-decoration: line-through; /* strikethrough on completion */
+  color: var(--muted);
+}
+ 
+/* Small category pill on the right of each task */
+.task-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--surface2);
+  color: var(--accent);
+}
+ 
+ 
+/* =============================================
+   PROGRESS BAR
+   Used in Today page and Goals page
+   ============================================= */
+.prog-bar-wrap {
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 3px;
+  margin: 6px 0 2px;
+  overflow: hidden;
+}
+ 
+.prog-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: var(--accent);
+  transition: width 0.4s;        /* smooth animation when % changes */
+}
+ 
+ 
+/* =============================================
+   GOAL CARDS
+   Long-term goals with milestones
+   ============================================= */
+.goal-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+}
+ 
+.goal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+ 
+.goal-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+}
+ 
+.goal-pct {
+  font-size: 13px;
+  color: var(--accent);
+}
+ 
+.goal-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+ 
+/* Row of milestone clickable pills */
+.milestone-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;               /* wraps to next line if too many */
+}
+ 
+.milestone {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: var(--surface2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+ 
+.milestone.done {
+  background: rgba(192, 132, 252, 0.15);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+ 
+ 
+/* =============================================
+   QUIZ CARDS
+   Used in Discover page for personality + skill
+   ============================================= */
+.quiz-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 10px;
+}
+ 
+.quiz-q {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+ 
+.quiz-opts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+ 
+.quiz-opt {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+ 
+.quiz-opt:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+ 
+.quiz-opt.selected {
+  background: rgba(192, 132, 252, 0.15);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+ 
+ 
+/* =============================================
+   REWARD CARD
+   Special gold-bordered card on End of Day page
+   ============================================= */
+.reward-card {
+  background: var(--surface);
+  border: 1px solid var(--gold);  /* gold border makes it feel special */
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+ 
+.reward-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+ 
+.reward-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+ 
+.reward-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+ 
+ 
+/* =============================================
+   REUSABLE UTILITY COMPONENTS
+   Shared across multiple pages
+   ============================================= */
+ 
+/* Dashed "add" button — used below task/goal lists */
+.add-btn {
+  width: 100%;
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-family: inherit;
+}
+ 
+.add-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+ 
+/* Row with text input + button side by side */
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+ 
+/* Styled text input field */
+.styled-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  font-family: inherit;
+}
+ 
+.styled-input:focus {
+  border-color: var(--accent);   /* border lights up on focus */
+}
+ 
+.styled-input::placeholder {
+  color: var(--muted);
+}
+ 
+/* Purple accent button */
+.accent-btn {
+  background: rgba(192, 132, 252, 0.2);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: var(--accent);
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+  white-space: nowrap;
+  font-family: inherit;
+}
+ 
+.accent-btn:hover {
+  background: rgba(192, 132, 252, 0.35);
+}
+ 
+ 
+/* =============================================
+   END OF DAY PAGE
+   ============================================= */
+.eod-section {
+  margin-bottom: 20px;
+}
+ 
+.eod-q {
+  font-size: 14px;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+ 
+/* Row of 5 mood emoji buttons */
+.mood-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+ 
+.mood-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 22px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+ 
+.mood-btn.selected {
+  border-color: var(--accent);
+  background: rgba(192, 132, 252, 0.15);
+}
+ 
+/* The big "claim your reward" button */
+.big-accent-btn {
+  width: 100%;
+  background: rgba(192, 132, 252, 0.2);
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  padding: 14px;
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 8px;
+  font-family: inherit;
+}
+ 
+.big-accent-btn:hover {
+  background: rgba(192, 132, 252, 0.35);
+}
+ 
+ 
+/* =============================================
+   UTILITY CLASSES
+   ============================================= */
+ 
+/* Completely hide an element (toggled by JS) */
+.hidden {
+  display: none;
+}
+ 
+/* The actual file picker input — hidden visually,
+   triggered by clicking the avatar circle */
+input[type="file"] {
+  display: none;
+}
+ 
+/* Feedback/praise message after answering a quiz */
+.confetti-msg {
+  font-size: 13px;
+  color: var(--green);
+  text-align: center;
+  padding: 8px;
+  display: none;
+}
+/* Floating hearts */
+.heart {
+  position: fixed;
+  bottom: 0;
+  font-size: 20px;
+  animation: floatUp 5s linear infinite;
+}
+ 
+.confetti-msg.show {
+  display: block;
+}
+ 
