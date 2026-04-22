@@ -3,531 +3,484 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tapti's Hype Tracker</title>
-
-  <!--
-    HOW THE 3 FILES CONNECT:
-    - This file (index.html) is the STRUCTURE — it has all the HTML elements
-    - styles.css is the STYLING — linked below with <link>
-    - script.js is the LOGIC — linked at the bottom with <script src="">
-
-    The browser loads index.html first, then fetches and applies
-    styles.css, then loads and runs script.js.
-
-    IMPORTANT: All 3 files must be in the SAME folder for this to work.
-  -->
-
-  <!-- Link to our external CSS file -->
+  <title>Tapti — Your Habit Universe</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
-<div class="app">
-
   <!-- =============================================
-       NAVIGATION BAR
-       5 buttons — each calls showPage() in script.js
-       The first button has class "active" by default
+       LANDING PAGE
        ============================================= -->
-  <div class="nav">
-
-    <button class="active" onclick="showPage('home', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-        <path d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/>
-        <path d="M9 22V12h6v10"/>
-      </svg>
-      Home
-    </button>
-
-    <button onclick="showPage('today', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-        <rect x="3" y="4" width="18" height="18" rx="2"/>
-        <path d="M16 2v4M8 2v4M3 10h18"/>
-      </svg>
-      Today
-    </button>
-
-    <button onclick="showPage('goals', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-      </svg>
-      Goals
-    </button>
-
-    <button onclick="showPage('discover', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M12 8v4l3 3"/>
-      </svg>
-      Discover
-    </button>
-
-    <button onclick="showPage('eod', this)">
-      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
-        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
-      </svg>
-      End of Day
-    </button>
-
-  </div><!-- end .nav -->
-
-
-  <!-- =============================================
-       PAGE 1: HOME
-       Greeting + photo + hype
-       "What's on your mind" task adder with deadline
-       Today's task list with progress
-       Long-term goals with progress tracking
-       ============================================= -->
-  <div id="home" class="page active">
-
-    <!-- ── GREETING HERO ── -->
-    <div class="greeting-hero">
-
-      <div class="avatar-ring" onclick="document.getElementById('photoInput').click()">
-        <img id="avatarImg" src="" style="display:none" alt="Your photo"/>
-        <div id="avatarPlaceholder">
-          <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.2"
-               viewBox="0 0 24 24" style="color:var(--muted)">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-        </div>
-        <div class="add-photo">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M12 5v14M5 12h14"/>
-          </svg>
-          add photo
-        </div>
+  <div id="landing">
+    <nav class="land-nav">
+      <div class="land-nav-logo">
+        <div class="logo-orb"></div>
+        <span>tapti</span>
       </div>
+      <button class="land-cta-sm" onclick="enterApp()">Open App</button>
+    </nav>
 
-      <input type="file" id="photoInput" accept="image/*" onchange="setPhoto(this)"/>
-      <div class="greeting-name" id="greetingText">Good morning, princess ✨</div>
-      <div class="greeting-sub" id="greetingSub">Rise and shine — the world needs your magic today</div>
-      <div class="hype-pill" onclick="rotateHype(this)">tap for a hype hit</div>
-
-    </div><!-- end .greeting-hero -->
-
-    <!-- ── STATS ROW ── -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-num" id="streakNum">0</div>
-        <div class="stat-label">day streak</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="completedToday">0</div>
-        <div class="stat-label">done today</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="totalGoals">0</div>
-        <div class="stat-label">active goals</div>
-      </div>
+    <div class="hero-bg">
+      <div class="hero-grid-lines"></div>
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="hero-particles" id="particles"></div>
     </div>
 
-    <!-- ── SECTION 1: WHAT'S ON YOUR MIND ── -->
-    <!-- This is the "brain dump" area — add tasks for today with a deadline -->
-    <div class="home-section-card">
-
-      <div class="home-section-header">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <path d="M12 2a7 7 0 017 7c0 3.5-2 6-4 8H9c-2-2-4-4.5-4-8a7 7 0 017-7z"/>
-          <path d="M9 21h6M10 21v1h4v-1"/>
-        </svg>
-        <span id="mindQuestion">Hey girl, what's on your mind today?</span>
+    <section class="hero-section">
+      <div class="hero-left">
+        <div class="hero-eyebrow">
+          <span class="eyebrow-pulse"></span>
+          your personal hype universe
+        </div>
+        <h1 class="hero-h1">
+          <span>Your habits.</span>
+          <span class="h1-accent">Your rules.</span>
+          <span>Your empire.</span>
+        </h1>
+        <p class="hero-p">
+          Track goals. Check in on skills.<br/>
+          Discover yourself. Built for you, <em>Tapti</em>.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-enter" onclick="enterApp()">
+            Enter Your Universe
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <span class="hero-note">no account · saved locally · always free</span>
+        </div>
       </div>
 
-      <!-- Task input: text + deadline time picker + add button -->
-      <div class="task-input-group">
-        <input class="styled-input"
-               id="homeTaskInput"
-               placeholder="e.g. finish Solidity chapter, practice choreo..."
-               onkeydown="if(event.key==='Enter') homeAddTask()"/>
-
-        <!-- Deadline selector — choose a time window to complete the task -->
-        <div class="deadline-row">
-          <span class="deadline-label">complete by</span>
-
-          <!-- Quick deadline pill buttons -->
-          <div class="deadline-pills" id="deadlinePills">
-            <button class="dl-pill" data-value="30m"  onclick="selectDeadline(this)">30 min</button>
-            <button class="dl-pill" data-value="1h"   onclick="selectDeadline(this)">1 hr</button>
-            <button class="dl-pill" data-value="2h"   onclick="selectDeadline(this)">2 hrs</button>
-            <button class="dl-pill" data-value="eod"  onclick="selectDeadline(this)">end of day</button>
-            <button class="dl-pill" data-value="week" onclick="selectDeadline(this)">this week</button>
+      <div class="hero-right">
+        <div class="preview-card">
+          <div class="preview-card-top">
+            <div class="preview-avatar">T</div>
+            <div class="preview-info">
+              <div class="preview-name">Tapti</div>
+              <div class="preview-streak">🔥 3 day streak</div>
+            </div>
+            <div class="preview-live">LIVE</div>
           </div>
-
-          <!-- Or pick a custom date/time -->
-          <input type="datetime-local"
-                 id="customDeadline"
-                 class="styled-input deadline-custom"
-                 style="width:auto; font-size:12px; padding:6px 10px;"/>
-        </div>
-
-        <button class="accent-btn home-add-btn" onclick="homeAddTask()">
-          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-            <path d="M12 5v14M5 12h14"/>
-          </svg>
-          add task
-        </button>
-      </div>
-
-      <!-- Today's task list rendered here -->
-      <!-- Each task shows its deadline and a checkbox -->
-      <div id="homeTaskList" style="margin-top:14px"></div>
-
-      <!-- Progress bar for today's tasks -->
-      <div id="homeDayProgressWrap" class="hidden" style="margin-top:12px">
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px">
-          <span style="font-size:12px; color:var(--muted)">today's progress</span>
-          <span style="font-size:12px; color:var(--accent)" id="homeDayProgressText">0 / 0</span>
-        </div>
-        <div class="prog-bar-wrap">
-          <div class="prog-bar" id="homeDayProgressBar" style="width:0%"></div>
-        </div>
-      </div>
-
-    </div><!-- end what's on your mind card -->
-
-
-    <!-- ── SECTION 2: LONG-TERM GOALS ── -->
-    <!-- Each goal has a name, target date, category tag, and milestone pills -->
-    <div class="home-section-card" style="margin-top:16px">
-
-      <div class="home-section-header">
-        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
-          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-        </svg>
-        <span>Long-term goals</span>
-        <!-- Count badge -->
-        <span class="goal-count-badge" id="goalCountBadge">0</span>
-      </div>
-
-      <!-- Goals list — rendered by renderHomeGoals() in script.js -->
-      <div id="homeGoalsList"></div>
-
-      <!-- Add new goal form — hidden by default, shown on click -->
-      <div id="addGoalForm" class="hidden" style="margin-top:12px">
-
-        <input class="styled-input"
-               id="homeGoalInput"
-               placeholder="what's the dream, queen?"
-               style="width:100%; margin-bottom:8px"
-               onkeydown="if(event.key==='Enter') homeAddGoal()"/>
-
-        <!-- Goal category tags -->
-        <div style="margin-bottom:8px">
-          <div style="font-size:12px; color:var(--muted); margin-bottom:6px">category</div>
-          <div class="deadline-pills" id="goalCategoryPills">
-            <button class="dl-pill" data-value="skill"     onclick="selectGoalCat(this)">skill</button>
-            <button class="dl-pill" data-value="fitness"   onclick="selectGoalCat(this)">fitness</button>
-            <button class="dl-pill" data-value="creative"  onclick="selectGoalCat(this)">creative</button>
-            <button class="dl-pill" data-value="career"    onclick="selectGoalCat(this)">career</button>
-            <button class="dl-pill" data-value="personal"  onclick="selectGoalCat(this)">personal</button>
+          <div class="preview-stats">
+            <div class="p-stat"><span class="p-stat-n">5</span><span class="p-stat-l">tasks</span></div>
+            <div class="p-stat-div"></div>
+            <div class="p-stat"><span class="p-stat-n">2</span><span class="p-stat-l">goals</span></div>
+            <div class="p-stat-div"></div>
+            <div class="p-stat"><span class="p-stat-n">80%</span><span class="p-stat-l">done</span></div>
+          </div>
+          <div class="preview-prog-wrap"><div class="preview-prog" style="width:80%"></div></div>
+          <div class="preview-tasks">
+            <div class="ptask done"><span class="ptask-check">✓</span><span>Morning skincare</span><span class="ptask-tag green-tag">done</span></div>
+            <div class="ptask"><span class="ptask-check"></span><span>Solidity chapter 3</span><span class="ptask-tag">2h</span></div>
+            <div class="ptask"><span class="ptask-check"></span><span>Choreo practice</span><span class="ptask-tag">eod</span></div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Target completion date -->
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px">
-          <span style="font-size:12px; color:var(--muted); white-space:nowrap">target date</span>
-          <input type="date"
-                 id="goalTargetDate"
-                 class="styled-input"
-                 style="flex:1; font-size:12px; padding:6px 10px"/>
+    <section class="feat-strip">
+      <div class="feat-item">
+        <div class="feat-icon fi-blue"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+        <div class="feat-text"><div class="feat-t">Daily Tasks</div><div class="feat-s">with smart deadlines</div></div>
+      </div>
+      <div class="feat-sep"></div>
+      <div class="feat-item">
+        <div class="feat-icon fi-purple"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></div>
+        <div class="feat-text"><div class="feat-t">Long-term Goals</div><div class="feat-s">milestone tracking</div></div>
+      </div>
+      <div class="feat-sep"></div>
+      <div class="feat-item">
+        <div class="feat-icon fi-teal"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div class="feat-text"><div class="feat-t">AI Skill Coach</div><div class="feat-s">Claude-powered chat</div></div>
+      </div>
+      <div class="feat-sep"></div>
+      <div class="feat-item">
+        <div class="feat-icon fi-gold"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 000-7.78z"/></svg></div>
+        <div class="feat-text"><div class="feat-t">End of Day</div><div class="feat-s">rewards + reflection</div></div>
+      </div>
+    </section>
+
+    <section class="how-section">
+      <div class="how-label">how it works</div>
+      <h2 class="how-h2">Three steps to owning your day</h2>
+      <div class="how-cards">
+        <div class="how-card">
+          <div class="how-num">01</div>
+          <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 3.5-2 6-4 8H9c-2-2-4-4.5-4-8a7 7 0 017-7z"/><path d="M9 21h6"/></svg></div>
+          <h3>Brain dump your day</h3>
+          <p>Tell the app what's on your mind. Add tasks with deadlines — 30 min to end of week.</p>
         </div>
-
-        <!-- Milestone input — comma separated -->
-        <input class="styled-input"
-               id="goalMilestones"
-               placeholder="milestones (comma separated, e.g. Basics, Build, Deploy)"
-               style="width:100%; margin-bottom:10px"/>
-
-        <div style="display:flex; gap:8px">
-          <button class="accent-btn" onclick="homeAddGoal()" style="flex:1">add goal</button>
-          <button onclick="toggleAddGoalForm()"
-                  style="
-                    flex:1; background:none; border:1px solid var(--border);
-                    border-radius:8px; color:var(--muted); font-size:13px;
-                    cursor:pointer; font-family:inherit;
-                  ">cancel</button>
+        <div class="how-card how-card-lit">
+          <div class="how-num">02</div>
+          <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+          <h3>Track your empire</h3>
+          <p>Long-term goals with milestones. Watch progress bars fill as you conquer each step.</p>
         </div>
+        <div class="how-card">
+          <div class="how-num">03</div>
+          <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+          <h3>Claim your reward</h3>
+          <p>End of day reflection, mood check, and a personalized reward for all your hard work.</p>
+        </div>
+      </div>
+    </section>
 
-      </div><!-- end add goal form -->
-
-      <!-- Show/hide the add goal form -->
-      <button class="add-btn" onclick="toggleAddGoalForm()" id="addGoalBtn" style="margin-top:10px">
-        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-          <path d="M12 5v14M5 12h14"/>
-        </svg>
-        add a goal
+    <section class="final-cta">
+      <div class="final-orb"></div>
+      <h2>Ready to become her?</h2>
+      <p>No account. No download. Just you and your goals.</p>
+      <button class="btn-enter" onclick="enterApp()">
+        Start Now — It's Free
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
-
-    </div><!-- end long-term goals card -->
-
-  </div><!-- end #home -->
+    </section>
+  </div><!-- end #landing -->
 
 
   <!-- =============================================
-       PAGE 2: TODAY
-       Full task list with progress bar + add task
+       THE APP
        ============================================= -->
-  <div id="today" class="page">
+  <div id="app" class="hidden">
 
-    <!-- Date and progress counter -->
-    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px">
-      <div style="font-size:18px; font-weight:500; color:var(--text)" id="todayDate"></div>
-      <div style="font-size:13px; color:var(--accent)" id="taskProgress">0 / 0 done</div>
-    </div>
+    <!-- Confetti canvas — covers full screen during reward -->
+    <canvas id="confettiCanvas"></canvas>
 
-    <!-- Horizontal progress bar -->
-    <div class="prog-bar-wrap" style="margin-bottom:20px">
-      <div class="prog-bar" id="dayProgBar" style="width:0%"></div>
-    </div>
-
-    <div class="section-title">Tasks for today</div>
-
-    <!-- Task list — filled by renderToday() in script.js -->
-    <div id="taskList"></div>
-
-    <!-- Add task input row -->
-    <!-- Pressing Enter also calls addTask() via onkeydown -->
-    <div class="input-row">
-      <input class="styled-input"
-             id="newTaskInput"
-             placeholder="add a task, diva..."
-             onkeydown="if(event.key === 'Enter') addTask()"/>
-      <button class="accent-btn" onclick="addTask()">add</button>
-    </div>
-
-  </div><!-- end #today -->
-
-
-  <!-- =============================================
-       PAGE 3: GOALS
-       Long-term goals with milestone pills
-       ============================================= -->
-  <div id="goals" class="page">
-
-    <div style="font-size:18px; font-weight:500; color:var(--text); margin-bottom:16px">
-      Long-term goals
-    </div>
-
-    <!-- Goals list — filled by renderGoals() in script.js -->
-    <div id="goalsList"></div>
-
-    <!-- Add goal input row -->
-    <div class="input-row" style="margin-top:8px">
-      <input class="styled-input"
-             id="newGoalInput"
-             placeholder="new goal, queen..."
-             onkeydown="if(event.key === 'Enter') addGoal()"/>
-      <button class="accent-btn" onclick="addGoal()">add</button>
-    </div>
-
-  </div><!-- end #goals -->
-
-
-  <!-- =============================================
-       PAGE 4: DISCOVER
-       Personality questions + skill check-in quiz
-       ============================================= -->
-  <div id="discover" class="page">
-
-    <div style="font-size:18px; font-weight:500; color:var(--text); margin-bottom:4px">
-      Know yourself, bae
-    </div>
-    <div style="font-size:13px; color:var(--muted); margin-bottom:18px">
-      A new question every day — the more you answer, the more you discover
-    </div>
-
-    <!-- Personality question card -->
-    <!-- Question text and options filled by renderDiscover() in script.js -->
-    <div class="quiz-card" id="personalityCard">
-      <div class="quiz-q" id="personalityQ"></div>
-      <div class="quiz-opts" id="personalityOpts"></div>
-      <!-- Green success message shown after answering -->
-      <div class="confetti-msg" id="pAnswer"></div>
-    </div>
-
-    <div style="font-size:13px; font-weight:500; color:var(--muted); margin:16px 0 10px">
-      Skill check-in
-    </div>
-
-    <!-- AI Skill Quiz card — powered by Claude API -->
-    <div class="quiz-card" id="skillCard">
-
-      <!-- Header row: title + reset button -->
-      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px">
-        <div style="font-size:13px; color:var(--muted)">Which skill are you leveling up?</div>
-        <!-- Reset button — only visible once a skill is set -->
-        <button id="skillResetBtn"
-                onclick="resetSkillChat()"
-                class="hidden"
-                style="
-                  background: none;
-                  border: 1px solid var(--border);
-                  border-radius: 8px;
-                  padding: 4px 10px;
-                  font-size: 11px;
-                  color: var(--muted);
-                  cursor: pointer;
-                ">
-          new session
-        </button>
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="topbar-logo">
+        <div class="logo-orb sm"></div>
+        <span>tapti</span>
       </div>
-
-      <!-- Skill name input row -->
-      <div class="input-row" style="margin:0 0 14px">
-        <input class="styled-input"
-               id="skillName"
-               placeholder="e.g. Solidity, dance, guitar..."
-               onkeydown="if(event.key === 'Enter') setSkill()"/>
-        <button class="accent-btn" onclick="setSkill()">set</button>
+      <div class="topbar-right">
+        <div class="streak-pill">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          <span id="topbarStreak">3</span>
+        </div>
+        <div class="topbar-avatar" onclick="document.getElementById('photoInput').click()" title="click to add your photo">
+          <img id="avatarImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%" alt=""/>
+          <span id="avatarInitial">T</span>
+        </div>
+        <input type="file" id="photoInput" accept="image/*" onchange="setPhoto(this)" style="display:none"/>
       </div>
+    </div>
 
-      <!-- AI chat area — hidden until a skill is set -->
-      <div id="skillQuizArea" class="hidden">
+    <!-- Tab nav -->
+    <div class="tab-nav">
+      <button class="tab active" onclick="showPage('home',this)">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/><path d="M9 22V12h6v10"/></svg>
+        Home
+      </button>
+      <button class="tab" onclick="showPage('today',this)">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        Today
+      </button>
+      <button class="tab" onclick="showPage('goals',this)">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Goals
+      </button>
+      <button class="tab" onclick="showPage('discover',this)">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Discover
+      </button>
+      <button class="tab" onclick="showPage('eod',this)">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Day End
+      </button>
+    </div>
 
-        <!-- Scrollable chat bubble container -->
-        <!-- Messages are injected here by renderSkillChat() in script.js -->
-        <div id="skillChatBox"
-             style="
-               min-height: 160px;
-               max-height: 320px;
-               overflow-y: auto;
-               margin-bottom: 12px;
-               padding: 4px 2px;
-             ">
-        </div>
 
-        <!-- "Claude is thinking..." indicator — shown while API call is in-flight -->
-        <div id="skillThinking"
-             style="
-               display: none;
-               align-items: center;
-               gap: 8px;
-               margin-bottom: 10px;
-               font-size: 12px;
-               color: var(--muted);
-             ">
-          <!-- Three animated dots -->
-          <span style="display:flex; gap:3px">
-            <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1s infinite 0s"></span>
-            <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1s infinite 0.2s"></span>
-            <span style="width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1s infinite 0.4s"></span>
-          </span>
-          Claude is thinking...
-        </div>
+    <!-- ══════════════ HOME ══════════════ -->
+    <div id="home" class="page active">
 
-        <!-- Answer input + submit button -->
-        <div style="display:flex; gap:8px; align-items:flex-end">
-          <textarea class="styled-input"
-                    id="skillAnswerInput"
-                    rows="2"
-                    placeholder="type your answer, badass..."
-                    style="flex:1; resize:none;"
-                    onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); submitSkillAnswer(); }">
-          </textarea>
-          <button class="accent-btn"
-                  id="skillSubmitBtn"
-                  onclick="submitSkillAnswer()"
-                  style="align-self:flex-end; padding: 9px 16px">
-            send
+      <!-- Greeting banner -->
+      <div class="home-banner">
+        <div class="banner-glow"></div>
+        <div class="banner-text">
+          <div class="banner-greeting" id="greetingText">Good morning, princess ✨</div>
+          <div class="banner-sub" id="greetingSub">Rise and shine — the world needs your magic today</div>
+          <button class="hype-btn" onclick="rotateHype(this)">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            hype me up
           </button>
         </div>
+        <div class="banner-stats">
+          <div class="bstat"><div class="bstat-n" id="streakNum">0</div><div class="bstat-l">streak</div></div>
+          <div class="bstat-sep"></div>
+          <div class="bstat"><div class="bstat-n" id="completedToday">0</div><div class="bstat-l">done</div></div>
+          <div class="bstat-sep"></div>
+          <div class="bstat"><div class="bstat-n" id="totalGoals">0</div><div class="bstat-l">goals</div></div>
+        </div>
+      </div>
 
-        <!-- Small hint below the input -->
-        <div style="font-size:11px; color:var(--muted); margin-top:6px">
-          press Enter to send &nbsp;·&nbsp; Shift+Enter for new line
+      <!-- ── DAILY PHOTO SECTION ── -->
+      <!-- Big rectangular box to upload a photo of your day -->
+      <div class="card" style="margin-top:14px">
+        <div class="card-header">
+          <div class="card-icon ci-pink">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+          </div>
+          <span class="card-title">today's moment</span>
+          <span class="card-title-sub" id="dailyPhotoDate"></span>
         </div>
 
-      </div><!-- end #skillQuizArea -->
+        <!-- The big photo drop zone / preview area -->
+        <div class="daily-photo-zone" id="dailyPhotoZone" onclick="document.getElementById('dailyPhotoInput').click()">
+          <img id="dailyPhotoPreview" src="" alt="today's photo" class="daily-photo-img hidden"/>
+          <div id="dailyPhotoPlaceholder" class="daily-photo-placeholder">
+            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>add a photo of your day</span>
+            <span class="daily-photo-hint">click to upload · jpg, png, etc</span>
+          </div>
+          <!-- Remove button shown when photo exists -->
+          <button id="dailyPhotoRemove" class="daily-photo-remove hidden" onclick="event.stopPropagation();removeDailyPhoto()">✕ remove</button>
+        </div>
+        <input type="file" id="dailyPhotoInput" accept="image/*" onchange="setDailyPhoto(this)" style="display:none"/>
 
-    </div><!-- end AI skill quiz card -->
+        <!-- Optional caption -->
+        <input class="field" id="dailyCaption" placeholder="add a caption... (optional)"
+               style="margin-top:8px;width:100%"
+               onchange="saveDailyCaption(this.value)"/>
+      </div>
 
-    <!--
-      CSS keyframe animation for the thinking dots.
-      Defined here because it's small and only used in this section.
-    -->
-    <style>
-      @keyframes blink {
-        0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
-        40%            { opacity: 1;   transform: scale(1);   }
-      }
-    </style>
+      <!-- ── WHAT'S ON YOUR MIND ── -->
+      <div class="card" style="margin-top:14px">
+        <div class="card-header">
+          <div class="card-icon ci-blue">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M12 2a7 7 0 017 7c0 3.5-2 6-4 8H9c-2-2-4-4.5-4-8a7 7 0 017-7z"/>
+              <path d="M9 21h6"/>
+            </svg>
+          </div>
+          <span class="card-title" id="mindQuestion">Hey girl, what's on your mind today?</span>
+        </div>
 
-  </div><!-- end #discover -->
+        <input class="field" id="homeTaskInput" placeholder="e.g. study solidity, practice choreo..."
+               onkeydown="if(event.key==='Enter')homeAddTask()"/>
+        <div class="dl-row">
+          <span class="dl-lbl">due</span>
+          <div class="dl-pills" id="deadlinePills">
+            <button class="dp" data-value="30m"  onclick="selectDeadline(this)">30m</button>
+            <button class="dp" data-value="1h"   onclick="selectDeadline(this)">1h</button>
+            <button class="dp" data-value="2h"   onclick="selectDeadline(this)">2h</button>
+            <button class="dp" data-value="eod"  onclick="selectDeadline(this)">eod</button>
+            <button class="dp" data-value="week" onclick="selectDeadline(this)">week</button>
+          </div>
+          <input type="datetime-local" id="customDeadline" class="field dl-custom"/>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center" onclick="homeAddTask()">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add task
+        </button>
+        <div id="homeTaskList" style="margin-top:12px"></div>
+        <div id="homeDayProgressWrap" class="hidden" style="margin-top:14px">
+          <div class="prog-row">
+            <span class="prog-lbl">today's progress</span>
+            <span class="prog-val" id="homeDayProgressText">0/0</span>
+          </div>
+          <div class="prog-track"><div class="prog-fill" id="homeDayProgressBar" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <!-- ── LONG-TERM GOALS ── -->
+      <div class="card" style="margin-top:14px;padding-bottom:20px">
+        <div class="card-header">
+          <div class="card-icon ci-purple">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <span class="card-title">Long-term goals</span>
+          <span class="count-badge" id="goalCountBadge">0</span>
+        </div>
+        <div id="homeGoalsList"></div>
+        <div id="addGoalForm" class="hidden goal-form">
+          <input class="field" id="homeGoalInput" placeholder="what's the dream, queen?" style="width:100%;margin-bottom:8px" onkeydown="if(event.key==='Enter')homeAddGoal()"/>
+          <div class="form-lbl">category</div>
+          <div class="dl-pills" id="goalCategoryPills" style="margin-bottom:10px">
+            <button class="dp" data-value="skill"    onclick="selectGoalCat(this)">skill</button>
+            <button class="dp" data-value="fitness"  onclick="selectGoalCat(this)">fitness</button>
+            <button class="dp" data-value="creative" onclick="selectGoalCat(this)">creative</button>
+            <button class="dp" data-value="career"   onclick="selectGoalCat(this)">career</button>
+            <button class="dp" data-value="personal" onclick="selectGoalCat(this)">personal</button>
+          </div>
+          <div class="form-lbl">target date</div>
+          <input type="date" id="goalTargetDate" class="field" style="width:100%;margin-bottom:8px"/>
+          <div class="form-lbl">milestones (comma separated)</div>
+          <input class="field" id="goalMilestones" placeholder="Basics, Build, Deploy, Launch" style="width:100%;margin-bottom:12px"/>
+          <div style="display:flex;gap:8px">
+            <button class="btn-primary" style="flex:1" onclick="homeAddGoal()">Add goal</button>
+            <button class="btn-ghost"   style="flex:1" onclick="toggleAddGoalForm()">Cancel</button>
+          </div>
+        </div>
+        <button class="btn-ghost add-goal-btn" id="addGoalBtn" onclick="toggleAddGoalForm()">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Add a goal
+        </button>
+      </div>
+    </div><!-- end #home -->
 
 
-  <!-- =============================================
-       PAGE 5: END OF DAY
-       Mood check + task recap + reflection + reward
-       ============================================= -->
-  <div id="eod" class="page">
-
-    <div style="font-size:18px; font-weight:500; color:var(--text); margin-bottom:4px">
-      End of day, queen
-    </div>
-    <div style="font-size:13px; color:var(--muted); margin-bottom:20px">
-      Let's wrap up and celebrate you
-    </div>
-
-    <!-- Mood selector — 5 emoji buttons -->
-    <div class="eod-section">
-      <div class="eod-q">How are you feeling right now?</div>
-      <div class="mood-row">
-        <!-- Each button calls selectMood() in script.js -->
-        <button class="mood-btn" onclick="selectMood(this, 'amazing')">&#128293;</button>
-        <button class="mood-btn" onclick="selectMood(this, 'good')">&#128512;</button>
-        <button class="mood-btn" onclick="selectMood(this, 'meh')">&#128528;</button>
-        <button class="mood-btn" onclick="selectMood(this, 'tired')">&#128564;</button>
-        <button class="mood-btn" onclick="selectMood(this, 'rough')">&#128532;</button>
+    <!-- ══════════════ TODAY ══════════════ -->
+    <div id="today" class="page">
+      <div class="page-hdr">
+        <div class="page-title" id="todayDate">Today</div>
+        <span class="hdr-badge" id="taskProgress">0/0</span>
+      </div>
+      <div class="prog-track" style="margin-bottom:16px">
+        <div class="prog-fill" id="dayProgBar" style="width:0%"></div>
+      </div>
+      <div class="card">
+        <div id="taskList"></div>
+        <div class="add-row">
+          <input class="field" id="newTaskInput" placeholder="add a task, diva..." onkeydown="if(event.key==='Enter')addTask()"/>
+          <button class="btn-primary" onclick="addTask()">Add</button>
+        </div>
       </div>
     </div>
 
-    <!-- Task recap — filled by renderEod() in script.js -->
-    <div class="eod-section">
-      <div class="section-title">Task recap</div>
-      <div id="eodRecap"></div>
+
+    <!-- ══════════════ GOALS ══════════════ -->
+    <div id="goals" class="page">
+      <div class="page-hdr"><div class="page-title">Long-term goals</div></div>
+      <div class="card">
+        <div id="goalsList"></div>
+        <div class="add-row">
+          <input class="field" id="newGoalInput" placeholder="new goal, queen..." onkeydown="if(event.key==='Enter')addGoal()"/>
+          <button class="btn-primary" onclick="addGoal()">Add</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Reflection text input -->
-    <div class="eod-section">
-      <div class="eod-q">One thing you are proud of today:</div>
-      <textarea class="styled-input"
-                id="proudOf"
-                rows="2"
-                placeholder="even tiny wins count, princess..."
-                style="width:100%; resize:none"></textarea>
-    </div>
 
-    <!-- Big reward claim button -->
-    <button class="big-accent-btn" onclick="claimReward()">claim your reward</button>
+    <!-- ══════════════ DISCOVER ══════════════ -->
+    <div id="discover" class="page">
+      <div class="page-hdr">
+        <div class="page-title">Know yourself, bae</div>
+        <div class="page-sub">a new question every day</div>
+      </div>
 
-    <!-- Reward card — hidden until claimReward() is called -->
-    <div id="rewardArea" class="hidden" style="margin-top:16px">
-      <div class="reward-card">
-        <div class="reward-icon">&#127925;</div>
+      <!-- Personality question card -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon ci-purple">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          </div>
+          <span class="card-title">Daily personality check</span>
+        </div>
+        <div class="pq-text" id="personalityQ"></div>
+        <div class="pq-opts" id="personalityOpts"></div>
+        <div class="pq-response hidden" id="pAnswer"></div>
+      </div>
+
+      <!-- AI Skill Coach card -->
+      <div class="card" style="margin-top:14px;padding-bottom:20px">
+        <div class="card-header">
+          <div class="card-icon ci-teal">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+          </div>
+          <span class="card-title">AI skill coach</span>
+          <button id="skillResetBtn" class="skill-reset hidden" onclick="resetSkillChat()">new session</button>
+        </div>
+
+        <!-- Skill set row -->
+        <div class="form-lbl" style="margin-bottom:8px">which skill are you leveling up?</div>
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <input class="field" id="skillName" placeholder="e.g. Solidity, dance, guitar..."
+                 style="flex:1" onkeydown="if(event.key==='Enter')setSkill()"/>
+          <button class="btn-primary" onclick="setSkill()">Set</button>
+        </div>
+
+        <!-- Chat area (hidden until skill is set) -->
+        <div id="skillQuizArea" class="hidden">
+          <div id="skillChatBox" class="chat-box"></div>
+          <div id="skillThinking" class="thinking hidden">
+            <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
+            <span style="font-size:12px;color:var(--tx3)">thinking...</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:flex-end;margin-top:10px">
+            <textarea class="field chat-input" id="skillAnswerInput" rows="2"
+                      placeholder="type your message, badass..."
+                      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitSkillAnswer()}"></textarea>
+            <button class="btn-primary" id="skillSubmitBtn" onclick="submitSkillAnswer()" style="align-self:flex-end">Send</button>
+          </div>
+          <div class="chat-hint">Enter to send · Shift+Enter for new line</div>
+        </div>
+      </div>
+    </div><!-- end #discover -->
+
+
+    <!-- ══════════════ END OF DAY ══════════════ -->
+    <div id="eod" class="page">
+      <div class="page-hdr">
+        <div class="page-title">End of day, queen</div>
+        <div class="page-sub">let's wrap up and celebrate you</div>
+      </div>
+
+      <!-- Mood -->
+      <div class="card">
+        <div class="eod-lbl">how are you feeling?</div>
+        <div class="mood-row">
+          <button class="mood-btn" onclick="selectMood(this,'amazing')">🔥</button>
+          <button class="mood-btn" onclick="selectMood(this,'good')">😊</button>
+          <button class="mood-btn" onclick="selectMood(this,'meh')">😐</button>
+          <button class="mood-btn" onclick="selectMood(this,'tired')">😴</button>
+          <button class="mood-btn" onclick="selectMood(this,'rough')">😔</button>
+        </div>
+      </div>
+
+      <!-- Task recap -->
+      <div class="card" style="margin-top:12px">
+        <div class="eod-lbl">task recap</div>
+        <div id="eodRecap"></div>
+      </div>
+
+      <!-- Proud of today — with history button -->
+      <div class="card" style="margin-top:12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="eod-lbl" style="margin-bottom:0">one thing you're proud of today</div>
+          <button class="history-btn" onclick="toggleProudHistory()">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            check history
+          </button>
+        </div>
+        <textarea class="field" id="proudOf" rows="3"
+                  placeholder="even tiny wins count, princess..."
+                  style="width:100%;resize:none"></textarea>
+
+        <!-- History panel — hidden by default -->
+        <div id="proudHistoryPanel" class="hidden proud-history-panel">
+          <div class="proud-history-header">
+            <span>your proud moments ✨</span>
+            <button onclick="toggleProudHistory()" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:16px">✕</button>
+          </div>
+          <div id="proudHistoryList" class="proud-history-list"></div>
+        </div>
+      </div>
+
+      <!-- Claim reward button -->
+      <button class="btn-reward" onclick="claimReward()">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        Claim your reward
+      </button>
+
+      <!-- Reward card -->
+      <div id="rewardArea" class="hidden reward-card">
+        <div class="reward-glyph">✦</div>
         <div class="reward-title" id="rewardTitle">You crushed it today!</div>
-        <div class="reward-sub"   id="rewardSub">
-          Go blast your favorite playlist — you earned every second of it, bae.
-        </div>
+        <div class="reward-sub" id="rewardSub">Go blast your favorite playlist — you earned it, bae.</div>
       </div>
-    </div>
 
-  </div><!-- end #eod -->
+    </div><!-- end #eod -->
 
-</div><!-- end .app -->
+  </div><!-- end #app -->
 
-
-<!--
-  Link to our external JavaScript file.
-  This goes at the BOTTOM of the body — so the HTML
-  above is fully loaded before the script tries to
-  find elements like document.getElementById('home').
-  If you put it in <head> the elements won't exist yet
-  and the script would crash.
--->
 <script src="script.js"></script>
-
 </body>
 </html>
