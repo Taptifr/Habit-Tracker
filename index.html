@@ -3,484 +3,666 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tapti — Your Habit Universe</title>
+  <title>Aura — Your Habit Universe</title>
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 
-  <!-- =============================================
-       LANDING PAGE
-       ============================================= -->
-  <div id="landing">
-    <nav class="land-nav">
-      <div class="land-nav-logo">
-        <div class="logo-orb"></div>
-        <span>tapti</span>
-      </div>
-      <button class="land-cta-sm" onclick="enterApp()">Open App</button>
-    </nav>
+<!-- 
+     ONBOARDING — shown on very first visit only
+      -->
+<div id="onboarding" class="hidden">
 
-    <div class="hero-bg">
-      <div class="hero-grid-lines"></div>
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
-      <div class="hero-particles" id="particles"></div>
+  <!--  Welcome splash -->
+  <div class="ob-step active" id="ob-step-1">
+    <div class="ob-bg"></div>
+    <div class="ob-particles" id="ob-particles"></div>
+    <div class="ob-content">
+      <div class="ob-logo">
+        <div class="ob-logo-orb"></div>
+        <span>aura</span>
+      </div>
+      <h1 class="ob-title">Welcome to<br/><span class="ob-title-glow">your universe</span></h1>
+      <p class="ob-sub">A habit tracker that learns who you are.<br/>Let's set things up in 2 minutes.</p>
+      <button class="ob-btn-primary" onclick="obNext(2)">Let's go →</button>
+    </div>
+  </div>
+
+  <!-- Step 2: Name -->
+  <div class="ob-step" id="ob-step-2">
+    <div class="ob-back" onclick="obNext(1)">← back</div>
+    <div class="ob-content ob-form-content">
+      <div class="ob-step-num">1 / 4</div>
+      <h2 class="ob-form-title">What's your name?</h2>
+      <p class="ob-form-sub">This is how we'll greet you every day</p>
+      <input class="ob-input" id="ob-name" type="text" placeholder="your name..." maxlength="30"
+             onkeydown="if(event.key==='Enter')obNext(3)"/>
+      <button class="ob-btn-primary" onclick="obNext(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Step 3: Gender -->
+  <div class="ob-step" id="ob-step-3">
+    <div class="ob-back" onclick="obNext(2)">← back</div>
+    <div class="ob-content ob-form-content">
+      <div class="ob-step-num">2 / 4</div>
+      <h2 class="ob-form-title">Tell us about yourself</h2>
+      <p class="ob-form-sub">Choose the one that fits</p>
+      <div class="ob-gender-grid" id="ob-gender-grid">
+        <div class="ob-gender-card" data-gender="female" onclick="selectGender(this)">
+          <div class="ob-gender-icon">♀</div>
+          <div class="ob-gender-label">Female</div>
+        </div>
+        <div class="ob-gender-card" data-gender="male" onclick="selectGender(this)">
+          <div class="ob-gender-icon">♂</div>
+          <div class="ob-gender-label">Male</div>
+        </div>
+        <div class="ob-gender-card" data-gender="nonbinary" onclick="selectGender(this)">
+          <div class="ob-gender-icon">⚧</div>
+          <div class="ob-gender-label">Non-binary</div>
+        </div>
+        <div class="ob-gender-card" data-gender="other" onclick="selectGender(this)">
+          <div class="ob-gender-icon">✦</div>
+          <div class="ob-gender-label">Prefer not to say</div>
+        </div>
+      </div>
+
+      <!-- Vibe dropdown — appears after gender is picked -->
+      <div id="ob-vibe-section" class="hidden" style="margin-top:24px;width:100%">
+        <p class="ob-form-sub" style="margin-bottom:12px">Now choose your vibe ✨</p>
+        <div class="ob-vibe-grid" id="ob-vibe-grid"></div>
+      </div>
+
+      <button class="ob-btn-primary" id="ob-gender-next" style="opacity:0.4;pointer-events:none" onclick="obNext(4)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- Step 4: Goals/interests -->
+  <div class="ob-step" id="ob-step-4">
+    <div class="ob-back" onclick="obNext(3)">← back</div>
+    <div class="ob-content ob-form-content">
+      <div class="ob-step-num">3 / 4</div>
+      <h2 class="ob-form-title">What are you here for?</h2>
+      <p class="ob-form-sub">Pick all that apply — we'll personalise everything</p>
+      <div class="ob-interest-grid" id="ob-interest-grid">
+        <div class="ob-interest" data-val="skills" onclick="toggleInterest(this)">📚 Learning skills</div>
+        <div class="ob-interest" data-val="fitness" onclick="toggleInterest(this)">💪 Fitness</div>
+        <div class="ob-interest" data-val="creative" onclick="toggleInterest(this)">🎨 Creative work</div>
+        <div class="ob-interest" data-val="career" onclick="toggleInterest(this)">🚀 Career goals</div>
+        <div class="ob-interest" data-val="selfcare" onclick="toggleInterest(this)">✨ Self-care</div>
+        <div class="ob-interest" data-val="social" onclick="toggleInterest(this)">🫂 Social life</div>
+        <div class="ob-interest" data-val="mindset" onclick="toggleInterest(this)">🧠 Mindset</div>
+        <div class="ob-interest" data-val="travel" onclick="toggleInterest(this)">🌍 Travel & explore</div>
+      </div>
+      <button class="ob-btn-primary" onclick="obNext(5)">Almost there →</button>
+    </div>
+  </div>
+
+  <!-- Step 5: Photo + finish -->
+  <div class="ob-step" id="ob-step-5">
+    <div class="ob-back" onclick="obNext(4)">← back</div>
+    <div class="ob-content ob-form-content">
+      <div class="ob-step-num">4 / 4</div>
+      <h2 class="ob-form-title">Add your photo</h2>
+      <p class="ob-form-sub">So the app greets you like the icon you are</p>
+
+      <!-- Profile photo upload circle -->
+      <div class="ob-photo-ring" onclick="document.getElementById('ob-photo-input').click()" id="ob-photo-ring">
+        <img id="ob-photo-preview" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%" alt=""/>
+        <div id="ob-photo-placeholder">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span>tap to add</span>
+        </div>
+      </div>
+      <input type="file" id="ob-photo-input" accept="image/*" onchange="setOnboardingPhoto(this)" style="display:none"/>
+
+      <button class="ob-btn-primary ob-finish-btn" onclick="finishOnboarding()">
+        Enter my universe ✦
+      </button>
+      <button class="ob-skip-btn" onclick="finishOnboarding()">skip for now</button>
+    </div>
+  </div>
+
+</div><!-- end #onboarding -->
+
+
+<!-- 
+     LANDING PAGE — shown after onboarding on return visits ><
+      -->
+<div id="landing" class="hidden">
+
+  <nav class="land-nav">
+    <div class="land-nav-logo">
+      <div class="logo-orb"></div>
+      <span>aura</span>
+    </div>
+    <button class="land-cta-sm" onclick="enterApp()">Open App</button>
+  </nav>
+
+  <div class="hero-bg">
+    <div class="hero-grid-lines"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <canvas id="landingCanvas"></canvas>
+    <div class="hero-particles" id="particles"></div>
+  </div>
+
+  <!-- Animated text rings in background -->
+  <div class="ring-container">
+    <div class="ring ring-1"></div>
+    <div class="ring ring-2"></div>
+    <div class="ring ring-3"></div>
+  </div>
+
+  <section class="hero-section">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-pulse"></span>
+        <span id="hero-eyebrow-text">your personal hype universe</span>
+      </div>
+      <h1 class="hero-h1">
+        <span class="hero-line" id="hero-line-1">Your habits.</span>
+        <span class="hero-line h1-accent" id="hero-line-2">Your rules.</span>
+        <span class="hero-line" id="hero-line-3">Your empire.</span>
+      </h1>
+      <p class="hero-p" id="hero-p">
+        Track goals. Check in on skills.<br/>
+        Discover yourself. Built for <em id="hero-name">you</em>.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-enter" onclick="enterApp()">
+          <span id="hero-cta-text">Enter Your Universe</span>
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <span class="hero-note">no account · saved locally · for free</span>
+      </div>
     </div>
 
-    <section class="hero-section">
-      <div class="hero-left">
-        <div class="hero-eyebrow">
-          <span class="eyebrow-pulse"></span>
-          your personal hype universe
-        </div>
-        <h1 class="hero-h1">
-          <span>Your habits.</span>
-          <span class="h1-accent">Your rules.</span>
-          <span>Your empire.</span>
-        </h1>
-        <p class="hero-p">
-          Track goals. Check in on skills.<br/>
-          Discover yourself. Built for you, <em>Tapti</em>.
-        </p>
-        <div class="hero-actions">
-          <button class="btn-enter" onclick="enterApp()">
-            Enter Your Universe
-            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
-          <span class="hero-note">no account · saved locally · always free</span>
-        </div>
-      </div>
-
-      <div class="hero-right">
-        <div class="preview-card">
-          <div class="preview-card-top">
-            <div class="preview-avatar">T</div>
-            <div class="preview-info">
-              <div class="preview-name">Tapti</div>
-              <div class="preview-streak">🔥 3 day streak</div>
-            </div>
-            <div class="preview-live">LIVE</div>
+    <div class="hero-right">
+      <div class="preview-card" id="preview-card">
+        <div class="preview-card-top">
+          <div class="preview-avatar" id="preview-avatar-img">
+            <span id="preview-avatar-letter">U</span>
           </div>
-          <div class="preview-stats">
-            <div class="p-stat"><span class="p-stat-n">5</span><span class="p-stat-l">tasks</span></div>
-            <div class="p-stat-div"></div>
-            <div class="p-stat"><span class="p-stat-n">2</span><span class="p-stat-l">goals</span></div>
-            <div class="p-stat-div"></div>
-            <div class="p-stat"><span class="p-stat-n">80%</span><span class="p-stat-l">done</span></div>
+          <div class="preview-info">
+            <div class="preview-name" id="preview-name">You</div>
+            <div class="preview-streak">🔥 3 day streak</div>
           </div>
-          <div class="preview-prog-wrap"><div class="preview-prog" style="width:80%"></div></div>
-          <div class="preview-tasks">
-            <div class="ptask done"><span class="ptask-check">✓</span><span>Morning skincare</span><span class="ptask-tag green-tag">done</span></div>
-            <div class="ptask"><span class="ptask-check"></span><span>Solidity chapter 3</span><span class="ptask-tag">2h</span></div>
-            <div class="ptask"><span class="ptask-check"></span><span>Choreo practice</span><span class="ptask-tag">eod</span></div>
-          </div>
+          <div class="preview-live">LIVE</div>
+        </div>
+        <div class="preview-stats">
+          <div class="p-stat"><span class="p-stat-n">5</span><span class="p-stat-l">tasks</span></div>
+          <div class="p-stat-div"></div>
+          <div class="p-stat"><span class="p-stat-n">2</span><span class="p-stat-l">goals</span></div>
+          <div class="p-stat-div"></div>
+          <div class="p-stat"><span class="p-stat-n">80%</span><span class="p-stat-l">done</span></div>
+        </div>
+        <div class="preview-prog-wrap"><div class="preview-prog" style="width:80%"></div></div>
+        <div class="preview-tasks">
+          <div class="ptask done"><span class="ptask-check">✓</span><span>Morning routine</span><span class="ptask-tag green-tag">done</span></div>
+          <div class="ptask"><span class="ptask-check"></span><span>Study session</span><span class="ptask-tag">2h</span></div>
+          <div class="ptask"><span class="ptask-check"></span><span>Creative practice</span><span class="ptask-tag">eod</span></div>
         </div>
       </div>
-    </section>
 
-    <section class="feat-strip">
-      <div class="feat-item">
-        <div class="feat-icon fi-blue"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
-        <div class="feat-text"><div class="feat-t">Daily Tasks</div><div class="feat-s">with smart deadlines</div></div>
+      <!-- Floating stat badges around the card -->
+      <div class="float-badge float-b1">
+        <span class="fb-icon">🔥</span>
+        <span>3 day streak</span>
       </div>
-      <div class="feat-sep"></div>
-      <div class="feat-item">
-        <div class="feat-icon fi-purple"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></div>
-        <div class="feat-text"><div class="feat-t">Long-term Goals</div><div class="feat-s">milestone tracking</div></div>
+      <div class="float-badge float-b2">
+        <span class="fb-icon">⭐</span>
+        <span>Goal smashed!</span>
       </div>
-      <div class="feat-sep"></div>
-      <div class="feat-item">
-        <div class="feat-icon fi-teal"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
-        <div class="feat-text"><div class="feat-t">AI Skill Coach</div><div class="feat-s">Claude-powered chat</div></div>
-      </div>
-      <div class="feat-sep"></div>
-      <div class="feat-item">
-        <div class="feat-icon fi-gold"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 000-7.78z"/></svg></div>
-        <div class="feat-text"><div class="feat-t">End of Day</div><div class="feat-s">rewards + reflection</div></div>
-      </div>
-    </section>
-
-    <section class="how-section">
-      <div class="how-label">how it works</div>
-      <h2 class="how-h2">Three steps to owning your day</h2>
-      <div class="how-cards">
-        <div class="how-card">
-          <div class="how-num">01</div>
-          <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 3.5-2 6-4 8H9c-2-2-4-4.5-4-8a7 7 0 017-7z"/><path d="M9 21h6"/></svg></div>
-          <h3>Brain dump your day</h3>
-          <p>Tell the app what's on your mind. Add tasks with deadlines — 30 min to end of week.</p>
-        </div>
-        <div class="how-card how-card-lit">
-          <div class="how-num">02</div>
-          <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
-          <h3>Track your empire</h3>
-          <p>Long-term goals with milestones. Watch progress bars fill as you conquer each step.</p>
-        </div>
-        <div class="how-card">
-          <div class="how-num">03</div>
-          <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
-          <h3>Claim your reward</h3>
-          <p>End of day reflection, mood check, and a personalized reward for all your hard work.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="final-cta">
-      <div class="final-orb"></div>
-      <h2>Ready to become her?</h2>
-      <p>No account. No download. Just you and your goals.</p>
-      <button class="btn-enter" onclick="enterApp()">
-        Start Now — It's Free
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </section>
-  </div><!-- end #landing -->
-
-
-  <!-- =============================================
-       THE APP
-       ============================================= -->
-  <div id="app" class="hidden">
-
-    <!-- Confetti canvas — covers full screen during reward -->
-    <canvas id="confettiCanvas"></canvas>
-
-    <!-- Top bar -->
-    <div class="topbar">
-      <div class="topbar-logo">
-        <div class="logo-orb sm"></div>
-        <span>tapti</span>
-      </div>
-      <div class="topbar-right">
-        <div class="streak-pill">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          <span id="topbarStreak">3</span>
-        </div>
-        <div class="topbar-avatar" onclick="document.getElementById('photoInput').click()" title="click to add your photo">
-          <img id="avatarImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%" alt=""/>
-          <span id="avatarInitial">T</span>
-        </div>
-        <input type="file" id="photoInput" accept="image/*" onchange="setPhoto(this)" style="display:none"/>
+      <div class="float-badge float-b3">
+        <span class="fb-icon">🧠</span>
+        <span>AI coach ready</span>
       </div>
     </div>
+  </section>
 
-    <!-- Tab nav -->
-    <div class="tab-nav">
-      <button class="tab active" onclick="showPage('home',this)">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/><path d="M9 22V12h6v10"/></svg>
-        Home
-      </button>
-      <button class="tab" onclick="showPage('today',this)">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-        Today
-      </button>
-      <button class="tab" onclick="showPage('goals',this)">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        Goals
-      </button>
-      <button class="tab" onclick="showPage('discover',this)">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-        Discover
-      </button>
-      <button class="tab" onclick="showPage('eod',this)">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-        Day End
-      </button>
+  <!-- Feature strip -->
+  <section class="feat-strip">
+    <div class="feat-item">
+      <div class="feat-icon fi-blue"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+      <div class="feat-text"><div class="feat-t">Daily Tasks</div><div class="feat-s">smart deadlines</div></div>
     </div>
+    <div class="feat-sep"></div>
+    <div class="feat-item">
+      <div class="feat-icon fi-purple"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/></svg></div>
+      <div class="feat-text"><div class="feat-t">Long-term Goals</div><div class="feat-s">milestone tracking</div></div>
+    </div>
+    <div class="feat-sep"></div>
+    <div class="feat-item">
+      <div class="feat-icon fi-teal"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+      <div class="feat-text"><div class="feat-t">AI Skill Coach</div><div class="feat-s">learns with you</div></div>
+    </div>
+    <div class="feat-sep"></div>
+    <div class="feat-item">
+      <div class="feat-icon fi-gold"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78a5.5 5.5 0 000-7.78z"/></svg></div>
+      <div class="feat-text"><div class="feat-t">Your Aesthetic</div><div class="feat-s">3 beautiful themes</div></div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-section">
+    <div class="how-label">how it works</div>
+    <h2 class="how-h2">Made for real people, not just productivity bros</h2>
+    <div class="how-cards">
+      <div class="how-card">
+        <div class="how-num">01</div>
+        <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 3.5-2 6-4 8H9c-2-2-4-4.5-4-8a7 7 0 017-7z"/><path d="M9 21h6"/></svg></div>
+        <h3>Set up your vibe</h3>
+        <p>Choose your aesthetic, add your name, upload your photo. The app adapts to you — not the other way around.</p>
+      </div>
+      <div class="how-card how-card-lit">
+        <div class="how-num">02</div>
+        <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <h3>The app learns you</h3>
+        <p>Over a week, Aura reads your patterns — tasks, answers, goals — and starts personalising your experience automatically.</p>
+      </div>
+      <div class="how-card">
+        <div class="how-num">03</div>
+        <div class="how-icon"><svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <h3>Claim your reward</h3>
+        <p>End of day reflection, mood check, confetti, and a personalised reward — because you deserve to celebrate.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <div class="final-orb"></div>
+    <h2>Ready to build your empire?</h2>
+    <p>No account. No download. Just you and your goals.</p>
+    <button class="btn-enter" onclick="enterApp()">
+      Start Now — It's Free
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </section>
+
+</div><!-- end #landing -->
 
 
-    <!-- ══════════════ HOME ══════════════ -->
-    <div id="home" class="page active">
+<!-- 
+     THE APP
+      -->
+<div id="app" class="hidden">
 
-      <!-- Greeting banner -->
-      <div class="home-banner">
-        <div class="banner-glow"></div>
-        <div class="banner-text">
-          <div class="banner-greeting" id="greetingText">Good morning, princess ✨</div>
-          <div class="banner-sub" id="greetingSub">Rise and shine — the world needs your magic today</div>
+  <canvas id="confettiCanvas"></canvas>
+
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="topbar-logo">
+      <div class="logo-orb sm"></div>
+      <span>aura</span>
+    </div>
+    <div class="topbar-right">
+      <div class="streak-pill">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        <span id="topbarStreak">0</span>
+      </div>
+      <!-- Avatar — clicking opens Profile tab -->
+      <div class="topbar-avatar" onclick="showPage('profile',this)" title="Your profile">
+        <img id="avatarImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%" alt=""/>
+        <span id="avatarInitial">?</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab nav -->
+  <div class="tab-nav">
+    <button class="tab active" onclick="showPage('home',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/><path d="M9 22V12h6v10"/></svg>
+      Home
+    </button>
+    <button class="tab" onclick="showPage('today',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Today
+    </button>
+    <button class="tab" onclick="showPage('goals',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Goals
+    </button>
+    <button class="tab" onclick="showPage('discover',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      Discover
+    </button>
+    <button class="tab" onclick="showPage('eod',this)">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+      Day End
+    </button>
+  </div>
+
+
+  <!--HOME -->
+  <div id="home" class="page active">
+
+    <!-- Profile hero (photo + greeting) -->
+    <div class="profile-hero">
+      <div class="ph-glow"></div>
+      <div class="ph-inner">
+        <div class="ph-photo-ring" onclick="showPage('profile', document.querySelector('.tab:last-of-type'))">
+          <img id="homeAvatarImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%" alt=""/>
+          <span id="homeAvatarInitial">?</span>
+          <div class="ph-edit-hint">edit</div>
+        </div>
+        <div class="ph-text">
+          <div class="ph-greeting" id="greetingText">Good morning ✨</div>
+          <div class="ph-sub" id="greetingSub">Rise and shine — the world needs your energy today</div>
           <button class="hype-btn" onclick="rotateHype(this)">
             <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-            hype me up
+            <span id="hypeLabel">hype me up</span>
           </button>
         </div>
-        <div class="banner-stats">
-          <div class="bstat"><div class="bstat-n" id="streakNum">0</div><div class="bstat-l">streak</div></div>
-          <div class="bstat-sep"></div>
-          <div class="bstat"><div class="bstat-n" id="completedToday">0</div><div class="bstat-l">done</div></div>
-          <div class="bstat-sep"></div>
-          <div class="bstat"><div class="bstat-n" id="totalGoals">0</div><div class="bstat-l">goals</div></div>
-        </div>
       </div>
-
-      <!-- ── DAILY PHOTO SECTION ── -->
-      <!-- Big rectangular box to upload a photo of your day -->
-      <div class="card" style="margin-top:14px">
-        <div class="card-header">
-          <div class="card-icon ci-pink">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <path d="M21 15l-5-5L5 21"/>
-            </svg>
-          </div>
-          <span class="card-title">today's moment</span>
-          <span class="card-title-sub" id="dailyPhotoDate"></span>
-        </div>
-
-        <!-- The big photo drop zone / preview area -->
-        <div class="daily-photo-zone" id="dailyPhotoZone" onclick="document.getElementById('dailyPhotoInput').click()">
-          <img id="dailyPhotoPreview" src="" alt="today's photo" class="daily-photo-img hidden"/>
-          <div id="dailyPhotoPlaceholder" class="daily-photo-placeholder">
-            <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24">
-              <rect x="3" y="3" width="18" height="18" rx="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <path d="M21 15l-5-5L5 21"/>
-            </svg>
-            <span>add a photo of your day</span>
-            <span class="daily-photo-hint">click to upload · jpg, png, etc</span>
-          </div>
-          <!-- Remove button shown when photo exists -->
-          <button id="dailyPhotoRemove" class="daily-photo-remove hidden" onclick="event.stopPropagation();removeDailyPhoto()">✕ remove</button>
-        </div>
-        <input type="file" id="dailyPhotoInput" accept="image/*" onchange="setDailyPhoto(this)" style="display:none"/>
-
-        <!-- Optional caption -->
-        <input class="field" id="dailyCaption" placeholder="add a caption... (optional)"
-               style="margin-top:8px;width:100%"
-               onchange="saveDailyCaption(this.value)"/>
-      </div>
-
-      <!-- ── WHAT'S ON YOUR MIND ── -->
-      <div class="card" style="margin-top:14px">
-        <div class="card-header">
-          <div class="card-icon ci-blue">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path d="M12 2a7 7 0 017 7c0 3.5-2 6-4 8H9c-2-2-4-4.5-4-8a7 7 0 017-7z"/>
-              <path d="M9 21h6"/>
-            </svg>
-          </div>
-          <span class="card-title" id="mindQuestion">Hey girl, what's on your mind today?</span>
-        </div>
-
-        <input class="field" id="homeTaskInput" placeholder="e.g. study solidity, practice choreo..."
-               onkeydown="if(event.key==='Enter')homeAddTask()"/>
-        <div class="dl-row">
-          <span class="dl-lbl">due</span>
-          <div class="dl-pills" id="deadlinePills">
-            <button class="dp" data-value="30m"  onclick="selectDeadline(this)">30m</button>
-            <button class="dp" data-value="1h"   onclick="selectDeadline(this)">1h</button>
-            <button class="dp" data-value="2h"   onclick="selectDeadline(this)">2h</button>
-            <button class="dp" data-value="eod"  onclick="selectDeadline(this)">eod</button>
-            <button class="dp" data-value="week" onclick="selectDeadline(this)">week</button>
-          </div>
-          <input type="datetime-local" id="customDeadline" class="field dl-custom"/>
-        </div>
-        <button class="btn-primary" style="width:100%;justify-content:center" onclick="homeAddTask()">
-          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-          Add task
-        </button>
-        <div id="homeTaskList" style="margin-top:12px"></div>
-        <div id="homeDayProgressWrap" class="hidden" style="margin-top:14px">
-          <div class="prog-row">
-            <span class="prog-lbl">today's progress</span>
-            <span class="prog-val" id="homeDayProgressText">0/0</span>
-          </div>
-          <div class="prog-track"><div class="prog-fill" id="homeDayProgressBar" style="width:0%"></div></div>
-        </div>
-      </div>
-
-      <!-- ── LONG-TERM GOALS ── -->
-      <div class="card" style="margin-top:14px;padding-bottom:20px">
-        <div class="card-header">
-          <div class="card-icon ci-purple">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <span class="card-title">Long-term goals</span>
-          <span class="count-badge" id="goalCountBadge">0</span>
-        </div>
-        <div id="homeGoalsList"></div>
-        <div id="addGoalForm" class="hidden goal-form">
-          <input class="field" id="homeGoalInput" placeholder="what's the dream, queen?" style="width:100%;margin-bottom:8px" onkeydown="if(event.key==='Enter')homeAddGoal()"/>
-          <div class="form-lbl">category</div>
-          <div class="dl-pills" id="goalCategoryPills" style="margin-bottom:10px">
-            <button class="dp" data-value="skill"    onclick="selectGoalCat(this)">skill</button>
-            <button class="dp" data-value="fitness"  onclick="selectGoalCat(this)">fitness</button>
-            <button class="dp" data-value="creative" onclick="selectGoalCat(this)">creative</button>
-            <button class="dp" data-value="career"   onclick="selectGoalCat(this)">career</button>
-            <button class="dp" data-value="personal" onclick="selectGoalCat(this)">personal</button>
-          </div>
-          <div class="form-lbl">target date</div>
-          <input type="date" id="goalTargetDate" class="field" style="width:100%;margin-bottom:8px"/>
-          <div class="form-lbl">milestones (comma separated)</div>
-          <input class="field" id="goalMilestones" placeholder="Basics, Build, Deploy, Launch" style="width:100%;margin-bottom:12px"/>
-          <div style="display:flex;gap:8px">
-            <button class="btn-primary" style="flex:1" onclick="homeAddGoal()">Add goal</button>
-            <button class="btn-ghost"   style="flex:1" onclick="toggleAddGoalForm()">Cancel</button>
-          </div>
-        </div>
-        <button class="btn-ghost add-goal-btn" id="addGoalBtn" onclick="toggleAddGoalForm()">
-          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
-          Add a goal
-        </button>
-      </div>
-    </div><!-- end #home -->
-
-
-    <!-- ══════════════ TODAY ══════════════ -->
-    <div id="today" class="page">
-      <div class="page-hdr">
-        <div class="page-title" id="todayDate">Today</div>
-        <span class="hdr-badge" id="taskProgress">0/0</span>
-      </div>
-      <div class="prog-track" style="margin-bottom:16px">
-        <div class="prog-fill" id="dayProgBar" style="width:0%"></div>
-      </div>
-      <div class="card">
-        <div id="taskList"></div>
-        <div class="add-row">
-          <input class="field" id="newTaskInput" placeholder="add a task, diva..." onkeydown="if(event.key==='Enter')addTask()"/>
-          <button class="btn-primary" onclick="addTask()">Add</button>
-        </div>
+      <div class="banner-stats">
+        <div class="bstat"><div class="bstat-n" id="streakNum">0</div><div class="bstat-l">streak</div></div>
+        <div class="bstat-sep"></div>
+        <div class="bstat"><div class="bstat-n" id="completedToday">0</div><div class="bstat-l">done</div></div>
+        <div class="bstat-sep"></div>
+        <div class="bstat"><div class="bstat-n" id="totalGoals">0</div><div class="bstat-l">goals</div></div>
       </div>
     </div>
 
-
-    <!-- ══════════════ GOALS ══════════════ -->
-    <div id="goals" class="page">
-      <div class="page-hdr"><div class="page-title">Long-term goals</div></div>
-      <div class="card">
-        <div id="goalsList"></div>
-        <div class="add-row">
-          <input class="field" id="newGoalInput" placeholder="new goal, queen..." onkeydown="if(event.key==='Enter')addGoal()"/>
-          <button class="btn-primary" onclick="addGoal()">Add</button>
-        </div>
+    <!-- Daily photo -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <div class="card-icon ci-pink"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+        <span class="card-title">today's moment</span>
+        <span class="card-title-sub" id="dailyPhotoDate"></span>
       </div>
+      <div class="daily-photo-zone" id="dailyPhotoZone" onclick="document.getElementById('dailyPhotoInput').click()">
+        <img id="dailyPhotoPreview" src="" alt="" class="daily-photo-img hidden"/>
+        <div id="dailyPhotoPlaceholder" class="daily-photo-placeholder">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span>add a photo of your day</span>
+          <span class="daily-photo-hint">click to upload</span>
+        </div>
+        <button id="dailyPhotoRemove" class="daily-photo-remove hidden" onclick="event.stopPropagation();removeDailyPhoto()">✕ remove</button>
+      </div>
+      <input type="file" id="dailyPhotoInput" accept="image/*" onchange="setDailyPhoto(this)" style="display:none"/>
+      <input class="field" id="dailyCaption" placeholder="add a caption... (optional)" style="margin-top:8px;width:100%" onchange="saveDailyCaption(this.value)"/>
     </div>
 
-
-    <!-- ══════════════ DISCOVER ══════════════ -->
-    <div id="discover" class="page">
-      <div class="page-hdr">
-        <div class="page-title">Know yourself, bae</div>
-        <div class="page-sub">a new question every day</div>
+    <!-- What's on your mind -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <div class="card-icon ci-blue"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2a7 7 0 017 7c0 3.5-2 6-4 8H9c-2-2-4-4.5-4-8a7 7 0 017-7z"/><path d="M9 21h6"/></svg></div>
+        <span class="card-title" id="mindQuestion">What's on your mind today?</span>
       </div>
-
-      <!-- Personality question card -->
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon ci-purple">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-          </div>
-          <span class="card-title">Daily personality check</span>
+      <input class="field" id="homeTaskInput" placeholder="add a task..." onkeydown="if(event.key==='Enter')homeAddTask()"/>
+      <div class="dl-row">
+        <span class="dl-lbl">due</span>
+        <div class="dl-pills" id="deadlinePills">
+          <button class="dp" data-value="15m"  onclick="selectDeadline(this)">15m</button>
+          <button class="dp" data-value="30m"  onclick="selectDeadline(this)">30m</button>
+          <button class="dp" data-value="1h"   onclick="selectDeadline(this)">1h</button>
+          <button class="dp" data-value="2h"   onclick="selectDeadline(this)">2h</button>
+          <button class="dp" data-value="eod"  onclick="selectDeadline(this)">eod</button>
+          <button class="dp" data-value="week" onclick="selectDeadline(this)">week</button>
         </div>
-        <div class="pq-text" id="personalityQ"></div>
-        <div class="pq-opts" id="personalityOpts"></div>
-        <div class="pq-response hidden" id="pAnswer"></div>
+        <input type="datetime-local" id="customDeadline" class="field dl-custom"/>
       </div>
-
-      <!-- AI Skill Coach card -->
-      <div class="card" style="margin-top:14px;padding-bottom:20px">
-        <div class="card-header">
-          <div class="card-icon ci-teal">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-          </div>
-          <span class="card-title">AI skill coach</span>
-          <button id="skillResetBtn" class="skill-reset hidden" onclick="resetSkillChat()">new session</button>
-        </div>
-
-        <!-- Skill set row -->
-        <div class="form-lbl" style="margin-bottom:8px">which skill are you leveling up?</div>
-        <div style="display:flex;gap:8px;margin-bottom:14px">
-          <input class="field" id="skillName" placeholder="e.g. Solidity, dance, guitar..."
-                 style="flex:1" onkeydown="if(event.key==='Enter')setSkill()"/>
-          <button class="btn-primary" onclick="setSkill()">Set</button>
-        </div>
-
-        <!-- Chat area (hidden until skill is set) -->
-        <div id="skillQuizArea" class="hidden">
-          <div id="skillChatBox" class="chat-box"></div>
-          <div id="skillThinking" class="thinking hidden">
-            <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
-            <span style="font-size:12px;color:var(--tx3)">thinking...</span>
-          </div>
-          <div style="display:flex;gap:8px;align-items:flex-end;margin-top:10px">
-            <textarea class="field chat-input" id="skillAnswerInput" rows="2"
-                      placeholder="type your message, badass..."
-                      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitSkillAnswer()}"></textarea>
-            <button class="btn-primary" id="skillSubmitBtn" onclick="submitSkillAnswer()" style="align-self:flex-end">Send</button>
-          </div>
-          <div class="chat-hint">Enter to send · Shift+Enter for new line</div>
-        </div>
-      </div>
-    </div><!-- end #discover -->
-
-
-    <!-- ══════════════ END OF DAY ══════════════ -->
-    <div id="eod" class="page">
-      <div class="page-hdr">
-        <div class="page-title">End of day, queen</div>
-        <div class="page-sub">let's wrap up and celebrate you</div>
-      </div>
-
-      <!-- Mood -->
-      <div class="card">
-        <div class="eod-lbl">how are you feeling?</div>
-        <div class="mood-row">
-          <button class="mood-btn" onclick="selectMood(this,'amazing')">🔥</button>
-          <button class="mood-btn" onclick="selectMood(this,'good')">😊</button>
-          <button class="mood-btn" onclick="selectMood(this,'meh')">😐</button>
-          <button class="mood-btn" onclick="selectMood(this,'tired')">😴</button>
-          <button class="mood-btn" onclick="selectMood(this,'rough')">😔</button>
-        </div>
-      </div>
-
-      <!-- Task recap -->
-      <div class="card" style="margin-top:12px">
-        <div class="eod-lbl">task recap</div>
-        <div id="eodRecap"></div>
-      </div>
-
-      <!-- Proud of today — with history button -->
-      <div class="card" style="margin-top:12px">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-          <div class="eod-lbl" style="margin-bottom:0">one thing you're proud of today</div>
-          <button class="history-btn" onclick="toggleProudHistory()">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            check history
-          </button>
-        </div>
-        <textarea class="field" id="proudOf" rows="3"
-                  placeholder="even tiny wins count, princess..."
-                  style="width:100%;resize:none"></textarea>
-
-        <!-- History panel — hidden by default -->
-        <div id="proudHistoryPanel" class="hidden proud-history-panel">
-          <div class="proud-history-header">
-            <span>your proud moments ✨</span>
-            <button onclick="toggleProudHistory()" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:16px">✕</button>
-          </div>
-          <div id="proudHistoryList" class="proud-history-list"></div>
-        </div>
-      </div>
-
-      <!-- Claim reward button -->
-      <button class="btn-reward" onclick="claimReward()">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        Claim your reward
+      <button class="btn-primary" style="width:100%;justify-content:center" onclick="homeAddTask()">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Add task
       </button>
+      <div id="homeTaskList" style="margin-top:12px"></div>
+      <div id="homeDayProgressWrap" class="hidden" style="margin-top:14px">
+        <div class="prog-row"><span class="prog-lbl">today's progress</span><span class="prog-val" id="homeDayProgressText">0/0</span></div>
+        <div class="prog-track"><div class="prog-fill" id="homeDayProgressBar" style="width:0%"></div></div>
+      </div>
+    </div>
 
-      <!-- Reward card -->
-      <div id="rewardArea" class="hidden reward-card">
-        <div class="reward-glyph">✦</div>
-        <div class="reward-title" id="rewardTitle">You crushed it today!</div>
-        <div class="reward-sub" id="rewardSub">Go blast your favorite playlist — you earned it, bae.</div>
+    <!-- Long-term goals -->
+    <div class="card" style="margin-top:14px;padding-bottom:20px">
+      <div class="card-header">
+        <div class="card-icon ci-purple"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <span class="card-title">Long-term goals</span>
+        <span class="count-badge" id="goalCountBadge">0</span>
+      </div>
+      <div id="homeGoalsList"></div>
+      <div id="addGoalForm" class="hidden goal-form">
+        <input class="field" id="homeGoalInput" placeholder="what's the dream?" style="width:100%;margin-bottom:8px" onkeydown="if(event.key==='Enter')homeAddGoal()"/>
+        <div class="form-lbl">category</div>
+        <div class="dl-pills" id="goalCategoryPills" style="margin-bottom:10px">
+          <button class="dp" data-value="skill"    onclick="selectGoalCat(this)">skill</button>
+          <button class="dp" data-value="fitness"  onclick="selectGoalCat(this)">fitness</button>
+          <button class="dp" data-value="creative" onclick="selectGoalCat(this)">creative</button>
+          <button class="dp" data-value="career"   onclick="selectGoalCat(this)">career</button>
+          <button class="dp" data-value="personal" onclick="selectGoalCat(this)">personal</button>
+        </div>
+        <div class="form-lbl">target date</div>
+        <input type="date" id="goalTargetDate" class="field" style="width:100%;margin-bottom:8px"/>
+        <div class="form-lbl">milestones (comma separated)</div>
+        <input class="field" id="goalMilestones" placeholder="Start, Build, Launch" style="width:100%;margin-bottom:12px"/>
+        <div style="display:flex;gap:8px">
+          <button class="btn-primary" style="flex:1" onclick="homeAddGoal()">Add goal</button>
+          <button class="btn-ghost"   style="flex:1" onclick="toggleAddGoalForm()">Cancel</button>
+        </div>
+      </div>
+      <button class="btn-ghost add-goal-btn" id="addGoalBtn" onclick="toggleAddGoalForm()">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        Add a goal
+      </button>
+    </div>
+
+    <!-- Personality insight card (appears after week 1) -->
+    <div id="insightCard" class="card insight-card hidden" style="margin-top:14px;margin-bottom:24px">
+      <div class="card-header">
+        <div class="card-icon ci-teal"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div>
+        <span class="card-title">Your aura this week ✦</span>
+      </div>
+      <div class="insight-text" id="insightText"></div>
+    </div>
+
+  </div><!-- end  of #home -->
+
+
+  <!--  TODAY  -->
+  <div id="today" class="page">
+    <div class="page-hdr">
+      <div class="page-title" id="todayDate">Today</div>
+      <span class="hdr-badge" id="taskProgress">0/0</span>
+    </div>
+    <div class="prog-track" style="margin-bottom:16px"><div class="prog-fill" id="dayProgBar" style="width:0%"></div></div>
+    <div class="card">
+      <div id="taskList"></div>
+      <div class="add-row">
+        <input class="field" id="newTaskInput" placeholder="add a task..." onkeydown="if(event.key==='Enter')addTask()"/>
+        <button class="btn-primary" onclick="addTask()">Add</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ GOALS ═══ -->
+  <div id="goals" class="page">
+    <div class="page-hdr"><div class="page-title">Long-term goals</div></div>
+    <div class="card">
+      <div id="goalsList"></div>
+      <div class="add-row">
+        <input class="field" id="newGoalInput" placeholder="new goal..." onkeydown="if(event.key==='Enter')addGoal()"/>
+        <button class="btn-primary" onclick="addGoal()">Add</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ DISCOVER ═══ -->
+  <div id="discover" class="page">
+    <div class="page-hdr">
+      <div class="page-title">Know yourself</div>
+      <div class="page-sub">a new question every day</div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-icon ci-purple"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></div>
+        <span class="card-title">Daily personality check</span>
+      </div>
+      <div class="pq-text" id="personalityQ"></div>
+      <div class="pq-opts" id="personalityOpts"></div>
+      <div class="pq-response hidden" id="pAnswer"></div>
+    </div>
+
+    <div class="card" style="margin-top:14px;padding-bottom:20px">
+      <div class="card-header">
+        <div class="card-icon ci-teal"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg></div>
+        <span class="card-title">AI skill coach</span>
+        <button id="skillResetBtn" class="skill-reset hidden" onclick="resetSkillChat()">new session</button>
+      </div>
+      <div class="form-lbl" style="margin-bottom:8px">which skill are you leveling up?</div>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <input class="field" id="skillName" placeholder="e.g. Solidity, dance, guitar..." style="flex:1" onkeydown="if(event.key==='Enter')setSkill()"/>
+        <button class="btn-primary" onclick="setSkill()">Set</button>
+      </div>
+      <div id="skillQuizArea" class="hidden">
+        <div id="skillChatBox" class="chat-box"></div>
+        <div id="skillThinking" class="thinking hidden">
+          <span class="tdot"></span><span class="tdot"></span><span class="tdot"></span>
+          <span style="font-size:12px;color:var(--tx3)">thinking...</span>
+        </div>
+        <div style="display:flex;gap:8px;align-items:flex-end;margin-top:10px">
+          <textarea class="field chat-input" id="skillAnswerInput" rows="2" placeholder="type your message..."
+                    onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();submitSkillAnswer()}"></textarea>
+          <button class="btn-primary" id="skillSubmitBtn" onclick="submitSkillAnswer()" style="align-self:flex-end">Send</button>
+        </div>
+        <div class="chat-hint">Enter to send · Shift+Enter for new line</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ END OF DAY ═══ -->
+  <div id="eod" class="page">
+    <div class="page-hdr">
+      <div class="page-title" id="eodTitle">End of day</div>
+      <div class="page-sub">let's wrap up and celebrate you</div>
+    </div>
+    <div class="card">
+      <div class="eod-lbl">how are you feeling?</div>
+      <div class="mood-row">
+        <button class="mood-btn" onclick="selectMood(this,'amazing')">🔥</button>
+        <button class="mood-btn" onclick="selectMood(this,'good')">😊</button>
+        <button class="mood-btn" onclick="selectMood(this,'meh')">😐</button>
+        <button class="mood-btn" onclick="selectMood(this,'tired')">😴</button>
+        <button class="mood-btn" onclick="selectMood(this,'rough')">😔</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="eod-lbl">task recap</div>
+      <div id="eodRecap"></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div class="eod-lbl" style="margin-bottom:0">one thing you're proud of today</div>
+        <button class="history-btn" onclick="toggleProudHistory()">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          check history
+        </button>
+      </div>
+      <textarea class="field" id="proudOf" rows="3" placeholder="even tiny wins count..." style="width:100%;resize:none"></textarea>
+      <div id="proudHistoryPanel" class="hidden proud-history-panel">
+        <div class="proud-history-header">
+          <span>your proud moments ✨</span>
+          <button onclick="toggleProudHistory()" style="background:none;border:none;color:var(--tx3);cursor:pointer;font-size:16px">✕</button>
+        </div>
+        <div id="proudHistoryList" class="proud-history-list"></div>
+      </div>
+    </div>
+    <button class="btn-reward" onclick="claimReward()">
+      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <span id="rewardBtnLabel">Claim your reward</span>
+    </button>
+    <div id="rewardArea" class="hidden reward-card">
+      <div class="reward-glyph">✦</div>
+      <div class="reward-title" id="rewardTitle">You crushed it!</div>
+      <div class="reward-sub" id="rewardSub">You earned it.</div>
+    </div>
+  </div>
+
+
+  <!-- ═══ PROFILE ═══ -->
+  <div id="profile" class="page">
+    <div class="page-hdr">
+      <div class="page-title">Your Profile</div>
+      <div class="page-sub">this is your space</div>
+    </div>
+
+    <!-- Profile photo section -->
+    <div class="profile-photo-section">
+      <div class="profile-big-ring" onclick="document.getElementById('profilePhotoInput').click()">
+        <img id="profilePhotoImg" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:50%" alt=""/>
+        <span id="profilePhotoInitial">?</span>
+        <div class="profile-photo-overlay">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          change photo
+        </div>
+      </div>
+      <input type="file" id="profilePhotoInput" accept="image/*" onchange="setProfilePhoto(this)" style="display:none"/>
+      <div class="profile-name-display" id="profileNameDisplay">—</div>
+      <div class="profile-vibe-badge" id="profileVibeBadge">—</div>
+    </div>
+
+    <!-- Edit fields -->
+    <div class="card" style="margin-top:16px">
+      <div class="card-header">
+        <div class="card-icon ci-blue"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <span class="card-title">Personal details</span>
       </div>
 
-    </div><!-- end #eod -->
+      <div class="profile-field-row">
+        <label class="profile-field-lbl">Display name</label>
+        <input class="field" id="profileName" placeholder="your name..." onchange="updateProfileName(this.value)"/>
+      </div>
 
-  </div><!-- end #app -->
+      <div class="profile-field-row">
+        <label class="profile-field-lbl">Pronouns</label>
+        <input class="field" id="profilePronouns" placeholder="e.g. she/her, he/him, they/them..."/>
+      </div>
+
+      <div class="profile-field-row">
+        <label class="profile-field-lbl">Bio</label>
+        <textarea class="field" id="profileBio" rows="2" placeholder="tell the app a bit about you..." style="width:100%;resize:none"></textarea>
+      </div>
+
+      <button class="btn-primary" style="width:100%;justify-content:center;margin-top:4px" onclick="saveProfile()">Save changes</button>
+    </div>
+
+    <!-- Theme picker -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <div class="card-icon ci-purple"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <span class="card-title">Choose your vibe</span>
+      </div>
+      <p style="font-size:12px;color:var(--tx3);margin-bottom:14px">Switching themes rebuilds the whole aesthetic — colors, animations, everything.</p>
+      <div class="theme-picker" id="profileThemePicker"></div>
+    </div>
+
+    <!-- Personality insights -->
+    <div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <div class="card-icon ci-teal"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div>
+        <span class="card-title">Your personality so far</span>
+      </div>
+      <div id="profileInsights" class="profile-insights"></div>
+    </div>
+
+    <!-- Stats -->
+    <div class="card" style="margin-top:14px;margin-bottom:24px">
+      <div class="card-header">
+        <div class="card-icon ci-blue"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg></div>
+        <span class="card-title">Your stats</span>
+      </div>
+      <div class="profile-stats-grid" id="profileStatsGrid"></div>
+    </div>
+
+  </div><!-- end #profile -->
+
+</div><!-- end #app -->
 
 <script src="script.js"></script>
 </body>
 </html>
+        
