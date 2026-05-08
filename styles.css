@@ -2,7 +2,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/*  THEME: NONCHALANT DIVA (default — deep navy/indigo) */
+/*  THEME: NONCHALANT DIVA (default — deep navy/indigo)1 */
 :root {
   --bg:       #06060f;
   --bg2:      #0b0b1a;
