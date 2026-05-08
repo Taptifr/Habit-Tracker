@@ -1,12 +1,3 @@
-// script.js — Aura Habit Tracker
-// 
-
-
-
-// SECTION 1: THEME DEFINITIONS
-// Each theme has full config: colors for confetti,
-// greeting names, hype messages, mind questions,
-// vibe label, reward messages
 
 
 const THEMES = {
@@ -45,6 +36,7 @@ const THEMES = {
         "You are exactly who you're becoming. Keep going.",
         "Every day you choose yourself. That's the move.",
         "Unstoppable. Unique. Unapologetically you.",
+        " The world needs your energy today. Let it out, star.",
       ]
     },
     mindQuestions: {
@@ -58,16 +50,17 @@ const THEMES = {
       other:  "A new day, a new chance to build your empire."
     },
     rewardSubs: {
-      female: ["Go blast your fav playlist — you earned it, bae.","Reward yourself with your comfort show, queen.","Fave snack, zero guilt. You EARNED this.","Call your bestie and brag. You have things to celebrate.","Your ritual tonight: whatever that makes you happy.", "Resr is the part of the process. Take it seriously tonight.", "Sit by the balcony/window and romatacize life for a bit", "You did great today. Now do something that makes you feel great too.", " You showed up fully today. Honour that with full rest and self-care."],
-      male:   ["Recovery mode: gaming, food, whatever recharges you.","You put in the work. Rest is earned.","Treat yourself, king. You delivered today.","Drop the grind. Tonight is yours.", "Open old chats/photos and just reminicse", "Step outside for fresh air and just exist for a bit."],
-      other:  ["Do exactly what makes you happy right now.","Rest, recharge, celebrate — you deserve it.","You showed up fully today. Honour that.", " Whatever your version of treating yourself is, do that. You earned it.", "Take a moment to just appreciate how well you did today.", "Rewatch a comfort movie or random Youtube rabbit hole.", "Order your favourite food and eat it like its's a celebration."],
+      female: ["Go blast your fav playlist — you earned it, bae.","Reward yourself with your comfort show, queen.","Fave snack, zero guilt. You EARNED this.","Call your bestie and brag. You have things to celebrate.", "Your ritual tonight: whatever that makes you happy.", "Resr is the part of the process. Take it seriously tonight.", "Sit by the balcony/window and romatacize life for a bit", "You did great today. Now do something that makes you feel great too.", " You showed up fully today. Honour that with full rest and self-care."],
+
+      male:   ["Recovery mode: gaming, food, whatever recharges you.","You put in the work. Rest is earned.","Treat yourself, king. You delivered today.","Drop the grind. Tonight is yours.", "Your ritual tonight: whatever that makes you happy.", "Rest is the part of the process. Take it seriously tonight.", "You did great today. Now do something that makes you feel great too.", " You showed up fully today. Honour that with full rest and self-care.",  "Open old chats/photos and just reminicse","Step outside for fresh air and just exist for a bit."],
+      other:  ["Do exactly what makes you happy right now.","Rest, recharge, celebrate — you deserve it.","You showed up fully today. Honour that.",  " Whatever your version of treating yourself is, do that. You earned it.", "Take a moment to just appreciate how well you did today.", "Rewatch a comfort movie or random Youtube rabbit hole.", "Order your favourite food and eat it like its's a celebration."]
     }
   },
 
   baddie: {
     id: 'baddie',
     name: 'Baddie',
-    desc: 'Dark , rich jewel tones',
+    desc: 'Dark luxury, rich jewel tones',
     attr: 'baddie',
     dotColors: ['#130e13','#a855f7'],
     dotColors2: ['#c084fc','#ec4899','#7c3aed'],
@@ -84,9 +77,11 @@ const THEMES = {
         "You are a force of nature. Embrace it.",
         " The grind never looked this good. Keep going, hun.",
         " You're not in a competition , you're in a league of your own.",
+
       ],
-      male: ["Boss moves only. That's your whole personality.","Power, purpose, progress. You're all three.","The grind never looked this good.", "You are a force. Own it.","Legacy in the making. Keep going."],
-      other: ["Iconic. Always. In every form.","Dark horse energy — quietly winning at everything.","The vision is yours. The execution is flawless."]
+      male: ["Boss moves only. That's your whole personality.","Power, purpose, progress. You're all three.","The grind never looked this good.","You are a force. Own it.","Legacy in the making. Keep going."],
+
+      other: ["Iconic. Always. In every form.","Dark horse energy — quietly winning at everything.","The vision is yours. The execution is flawless.", ]
     },
     mindQuestions: {
       female: ["What's on the agenda, baddie?","What are we manifesting today, it girl?","What's the power move today?","Tell me the vision for today."],
@@ -215,9 +210,9 @@ const GENDER_VIBES = {
 };
 
 
-
+// =============================================
 // SECTION 2: STATE
-
+// =============================================
 
 let state = JSON.parse(localStorage.getItem('aura_app') || '{}');
 
@@ -244,7 +239,7 @@ if (!state.dailyPhotos) state.dailyPhotos = {};
 if (!state.streak)      state.streak      = 0;
 if (!state.pqIndex)     state.pqIndex     = 0;
 if (!state.skillName)   state.skillName   = '';
-if (!state.pqAnswers)   state.pqAnswers   = [];   // for personality learning
+if (!state.pqAnswers)   state.pqAnswers   = [];   
 if (!state.taskPatterns)state.taskPatterns= [];   // for personality learning
 
 function save() { localStorage.setItem('aura_app', JSON.stringify(state)); }
@@ -396,13 +391,13 @@ function applyTheme(themeId) {
     document.documentElement.setAttribute('data-theme', attr);
   }
 
-  // Update logo orb color dynamically
+  
   document.querySelectorAll('.logo-orb, .ob-logo-orb').forEach(orb => {
     orb.style.background = t.dotColors[1];
     orb.style.boxShadow  = `0 0 16px ${t.dotColors[1]}bb, 0 0 32px ${t.dotColors[1]}55`;
   });
 
-  // Update preview card accent
+  //  preview card accent
   updateLandingForUser();
 }
 
@@ -487,7 +482,7 @@ function startLandingCanvas() {
       if (n.x < 0 || n.x > canvas.width)  n.vx *= -1;
       if (n.y < 0 || n.y > canvas.height) n.vy *= -1;
     });
-    // draw connecting lines between nearby nodes
+    // Draw connecting lines between nearby nodes
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i+1; j < nodes.length; j++) {
         const dx   = nodes[i].x - nodes[j].x;
@@ -625,7 +620,7 @@ function renderHome() {
   renderPersonalityInsight();
 }
 
-// ── DAILY PHOTO ──
+// DAILY PHOTO 
 
 function renderDailyPhoto() {
   const key     = todayKey();
@@ -752,7 +747,7 @@ function homeDeleteTask(i) {
   document.getElementById('completedToday').textContent = state.homeTasks.filter(t=>t.done).length;
 }
 
-// ── GOALS ──
+// GOALS 
 
 function selectGoalCat(btn) {
   document.querySelectorAll('#goalCategoryPills .dp').forEach(b => b.classList.remove('active'));
@@ -835,7 +830,7 @@ function homeDeleteGoal(gi) {
   renderHomeGoals();
 }
 
-//  HYPE 
+// HYPE 
 function rotateHype(el) {
   const hypes = byGender(T().hypes);
   const msg   = hypes[Math.floor(Math.random()*hypes.length)];
@@ -850,8 +845,6 @@ function rotateHype(el) {
 
 
 // SECTION 8: PERSONALITY LEARNING ENGINE
-// Reads patterns in tasks, PQ answers, goals
-// and generates a personalised insight after 7+ interactions
 
 
 function recordPQAnswer(answer) {
@@ -904,15 +897,41 @@ function renderToday() {
   const total = state.tasks.length;
   document.getElementById('taskProgress').textContent = done+'/'+total;
   document.getElementById('dayProgBar').style.width = (total?Math.round(done/total*100):0)+'%';
+  if (state.tasks.length === 0) {
+    document.getElementById('taskList').innerHTML =
+      `<div style="font-size:13px;color:var(--tx3);text-align:center;padding:16px 0">no tasks yet — add one below!</div>`;
+    return;
+  }
+
   document.getElementById('taskList').innerHTML = state.tasks.map((t,i)=>`
-    <div class="task-item${t.done?' done':''}" onclick="toggleTask(${i})">
-      <div class="task-item-check">${t.done?'✓':''}</div>
-      <div class="task-item-text">${t.text}</div>
+    <div class="task-item${t.done?' done':''}">
+      <div class="task-item-check" onclick="toggleTask(${i})">${t.done?'✓':''}</div>
+      <div class="task-item-text" onclick="toggleTask(${i})">${t.text}</div>
       <span class="task-item-tag">${t.tag||'task'}</span>
+      <button class="task-item-del" onclick="deleteTask(${i})" title="delete task">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
     </div>`).join('');
 }
 
-function toggleTask(i) { state.tasks[i].done = !state.tasks[i].done; save(); renderToday(); }
+function toggleTask(i) {
+  state.tasks[i].done = !state.tasks[i].done;
+  save();
+  renderToday();
+
+  // If every task is now done ,fire the special burst confetti
+  if (state.tasks.length > 0 && state.tasks.every(t => t.done)) {
+    launchBurstConfetti();
+  }
+}
+
+function deleteTask(i) {
+  state.tasks.splice(i, 1);
+  save();
+  renderToday();
+}
 
 function addTask() {
   const v = document.getElementById('newTaskInput').value.trim();
@@ -1007,7 +1026,8 @@ function answerPersonality(btn, ans) {
 }
 
 
-// ── AI SKILL COACH ──
+//  AI SKILL COACH
+// idk how to make this one work 
 
 function setSkill() {
   const v = document.getElementById('skillName').value.trim();
@@ -1177,7 +1197,7 @@ function renderProudHistory() {
 }
 
 
-//  CONFETTI :3
+//  CONFETTI 
 
 let confettiAnimId = null;
 
@@ -1240,6 +1260,208 @@ function launchConfetti() {
     canvas.style.display = 'none';
     ctx.clearRect(0,0,canvas.width,canvas.height);
   }, 4500);
+}
+
+
+
+
+let burstAnimId = null;
+
+function launchBurstConfetti() {
+  const canvas = document.getElementById('confettiCanvas');
+  const ctx    = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  canvas.style.display = 'block';
+
+  const colours = T().confetti || ['#6366f1','#a855f7','#ec4899','#f59e0b','#22c55e'];
+
+  // Create 5 burst origins spread across the screen
+  const origins = [
+    { x: canvas.width * 0.2,  y: canvas.height * 0.45 },
+    { x: canvas.width * 0.5,  y: canvas.height * 0.35 },
+    { x: canvas.width * 0.8,  y: canvas.height * 0.45 },
+    { x: canvas.width * 0.35, y: canvas.height * 0.60 },
+    { x: canvas.width * 0.65, y: canvas.height * 0.55 },
+  ];
+
+  const particles = [];
+
+  // For each origin, spawn a burst of particles
+  origins.forEach((origin, oi) => {
+    const count  = 28 + Math.floor(Math.random() * 18);
+    const color1 = colours[oi % colours.length];
+    const color2 = colours[(oi + 2) % colours.length];
+
+    for (let i = 0; i < count; i++) {
+      const angle  = (i / count) * Math.PI * 2;
+      const speed  = 3 + Math.random() * 7;
+      const shape  = ['star','circle','ring','spark'][Math.floor(Math.random()*4)];
+
+      particles.push({
+        x:      origin.x,
+        y:      origin.y,
+        vx:     Math.cos(angle) * speed,
+        vy:     Math.sin(angle) * speed - 2,   // slight upward bias
+        color:  Math.random() > 0.5 ? color1 : color2,
+        size:   2 + Math.random() * 5,
+        alpha:  1,
+        shape,
+        spin:   (Math.random() - 0.5) * 0.25,
+        angle:  Math.random() * Math.PI * 2,
+        trail:  [],                              // stores last N positions for trail
+        delay:  oi * 80,                         // stagger each burst
+        born:   false,
+        birthTime: Date.now() + oi * 80,
+      });
+    }
+  });
+
+  // Ring shockwave per origin
+  const rings = origins.map((o, i) => ({
+    x: o.x, y: o.y,
+    radius: 0,
+    maxRadius: 80 + Math.random() * 40,
+    alpha: 0.8,
+    color: colours[i % colours.length],
+    delay: i * 80,
+    birthTime: Date.now() + i * 80,
+  }));
+
+  function drawStar(ctx, x, y, size, color) {
+    const spikes = 5;
+    const outer  = size;
+    const inner  = size * 0.4;
+    ctx.beginPath();
+    for (let s = 0; s < spikes * 2; s++) {
+      const r   = s % 2 === 0 ? outer : inner;
+      const ang = (s / (spikes * 2)) * Math.PI * 2 - Math.PI / 2;
+      s === 0 ? ctx.moveTo(x + Math.cos(ang)*r, y + Math.sin(ang)*r)
+              : ctx.lineTo(x + Math.cos(ang)*r, y + Math.sin(ang)*r);
+    }
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+  }
+
+  function drawSpark(ctx, x, y, size, angle, color) {
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + Math.cos(angle) * size * 3, y + Math.sin(angle) * size * 3);
+    ctx.strokeStyle = color;
+    ctx.lineWidth   = size * 0.6;
+    ctx.lineCap     = 'round';
+    ctx.stroke();
+  }
+
+  const startTime = Date.now();
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const now = Date.now();
+    let alive = 0;
+
+    // Draw shockwave rings
+    rings.forEach(ring => {
+      if (now < ring.birthTime) return;
+      ring.radius += 4;
+      ring.alpha  -= 0.025;
+      if (ring.alpha <= 0) return;
+      ctx.beginPath();
+      ctx.arc(ring.x, ring.y, ring.radius, 0, Math.PI * 2);
+      ctx.strokeStyle = ring.color;
+      ctx.globalAlpha = ring.alpha;
+      ctx.lineWidth   = 2.5;
+      ctx.stroke();
+    });
+
+    // Draw particles
+    particles.forEach(p => {
+      if (now < p.birthTime) return;
+
+      // Apply physics
+      p.x     += p.vx;
+      p.y     += p.vy;
+      p.vy    += 0.12;           // gravity
+      p.vx    *= 0.98;           // drag
+      p.angle += p.spin;
+      p.alpha -= 0.016;
+
+      if (p.alpha <= 0) return;
+      alive++;
+
+      // Store trail positions
+      p.trail.push({ x: p.x, y: p.y });
+      if (p.trail.length > 6) p.trail.shift();
+
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, p.alpha);
+
+      // Draw trail
+      if (p.trail.length > 1 && p.shape !== 'ring') {
+        ctx.beginPath();
+        ctx.moveTo(p.trail[0].x, p.trail[0].y);
+        p.trail.forEach(pt => ctx.lineTo(pt.x, pt.y));
+        ctx.strokeStyle = p.color;
+        ctx.globalAlpha = Math.max(0, p.alpha * 0.3);
+        ctx.lineWidth   = p.size * 0.5;
+        ctx.stroke();
+        ctx.globalAlpha = Math.max(0, p.alpha);
+      }
+
+      // Draw shape
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+
+      switch (p.shape) {
+        case 'star':
+          drawStar(ctx, 0, 0, p.size, p.color);
+          break;
+        case 'circle':
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          // Glow
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur  = 8;
+          ctx.fill();
+          break;
+        case 'ring':
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+          ctx.strokeStyle = p.color;
+          ctx.lineWidth   = 1.5;
+          ctx.stroke();
+          break;
+        case 'spark':
+          drawSpark(ctx, 0, 0, p.size, p.angle, p.color);
+          break;
+      }
+
+      ctx.restore();
+    });
+
+    ctx.globalAlpha  = 1;
+    ctx.shadowBlur   = 0;
+
+    const elapsed = now - startTime;
+    if (alive > 0 || elapsed < 600) {
+      burstAnimId = requestAnimationFrame(draw);
+    } else {
+      canvas.style.display = 'none';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+
+  if (burstAnimId) cancelAnimationFrame(burstAnimId);
+  draw();
+
+  // Hard stop after 3.5s
+  setTimeout(() => {
+    if (burstAnimId) cancelAnimationFrame(burstAnimId);
+    canvas.style.display = 'none';
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }, 3500);
 }
 
 function claimReward() {
@@ -1402,7 +1624,7 @@ function setPhoto(input) { setProfilePhoto(input); }
 
 // On load: check if onboarded
 if (!state.profile.onboarded) {
-  // First visit — show onboarding
+  // First visit: show onboarding
   document.getElementById('onboarding').classList.remove('hidden');
   // Spawn particles in onboarding background
   const obPart = document.getElementById('ob-particles');
@@ -1415,7 +1637,7 @@ if (!state.profile.onboarded) {
     }
   }
 } else {
-  // Returning user — apply their theme, show landing
+  // Returning user, apply their theme, show landing
   applyTheme(state.profile.theme || 'nonchalant');
   showLanding();
 }
