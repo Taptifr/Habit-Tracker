@@ -21,4 +21,4 @@ creating a tailored experience that feels like your own personal hype universe.
 - Built with love for the community that values self-improvement and self-care
  TRY IT OUT:
 
- https://habit-tracker-hw3gwr7xu-taptifrs-projects.vercel.app/
+https://habit-tracker-plum-three.vercel.app/
